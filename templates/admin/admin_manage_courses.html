@@ -1,0 +1,48 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Manage Courses</h1>
+    </div>
+    <!--displaying all courses-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                   <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Course Name</th>
+                                <th>Course Level</th>
+                                <th>Course Department</th>
+                                <th>Course Year</th>
+                                <th>Course Semester</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for course in course_list %}
+                            <tr>
+                                <td>{{course.course_name}}</td>
+                                <td>{{course.course_level}}</td>
+                                <td>{{course.course_dept.dept_name}}</td>
+                                <td>{{course.course_year}}</td>
+                                <td>{{course.course_sem}}</td>
+                                <td>
+                                    <a href="{% url 'admin_view_course' course.course_uuid %}" class="btn btn-success">View Course</a> &nbsp;
+                                    <a href="#" class="btn btn-primary">Edit</a> &nbsp;
+                                    <a href="{% url 'admin_delete_course' course.course_uuid %}" class="btn btn-danger">Delete</a> 
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content%}

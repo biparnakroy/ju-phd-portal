@@ -1,0 +1,49 @@
+{% extends "admin/admin_base.html" %}
+
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Create A New Department</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+              <!--form for new department-->
+              <form action={%url 'admin_create_dept'%} method="POST">
+                {%csrf_token%}
+                <div class="form-row">
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_name" style="margin-bottom:10px;">Department Name</label>
+                    <input type="text" class="form-control" placeholder="Enter department Name" name="dept_name">
+                  </div>
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_code"style="margin-bottom:10px;">Department Code</label>
+                    <input type="text" class="form-control"  placeholder="Enter department Code" name="dept_code">
+                  </div>
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_phone"style="margin-bottom:10px;">Department Contact no.</label>
+                    <input type="tel" class="form-control"  maxlength="11" placeholder="Enter department Contact Number" name="dept_phone">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_hod" style="margin-bottom:10px;">Department HOD</label>
+                    <input type="text" class="form-control" placeholder="Enter name of department HOD" name="dept_hod">
+                  </div>
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_hod_email" style="margin-bottom:10px;" >Department HOD Email</label>
+                    <input type="email" class="form-control" placeholder="Enter department HOD Email" name="dept_hod_email">
+                  </div>
+                </div>
+                <button type="submit" style="margin-top: 10px;" class="btn btn-primary">Create Department</button>
+              </form>
+            </div>
+          </div>
+    </div>
+  </div>
+
+          
+</main>
+{% endblock content %}

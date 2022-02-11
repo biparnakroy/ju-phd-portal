@@ -1,0 +1,55 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Manage Departments</h1>
+    </div>
+    <!--displaying all the Departments-->
+    {% if department_list %}
+    <div class="row">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Contact</th>
+                        <th>HOD</th>
+                        <th>HOD Email</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for department in department_list %}
+                      <tr>
+                        <td>{{ department.dept_name }}</td>
+                        <td>{{ department.dept_code}}</td>
+                        <td>{{ department.dept_phone}}</td>
+                        <td>{{ department.dept_hod}}</td>
+                        <td>{{department.dept_hod_email}}</td>
+                        <td>
+                            <a href="{% url 'admin_edit_dept_view' department.dept_uuid %}" class="btn btn-primary btn-sm">Edit</a>&nbsp;
+                            <a href="{% url 'admin_delete_dept' department.dept_uuid %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+   
+    {% else %}
+    <p>No Departments found</p>
+    {% endif %}
+  
+
+  </main>
+  {% endblock content %}
+  

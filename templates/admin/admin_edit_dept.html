@@ -1,0 +1,46 @@
+{% extends "admin/admin_base.html" %}
+
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Edit Department of Code : {{dept.dept_code}}</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+              <form action={%url 'admin_edit_dept' dept.dept_uuid%} method="POST">
+                {%csrf_token%}
+                <div class="form-row">
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_name" style="margin-bottom:10px;">Department Name</label>
+                    <input type="text" class="form-control" placeholder="Department Name" value="{{dept.dept_name}}" name="dept_name">
+                  </div>
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_code"style="margin-bottom:10px;">Department Code</label>
+                    <input type="text" class="form-control"  placeholder="Department Code" value="{{dept.dept_code}}" name="dept_code">
+                  </div>
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_phone"style="margin-bottom:10px;">Department Contact no.</label>
+                    <input type="tel" class="form-control"  maxlength="11" placeholder="Department Contact Number" value="{{dept.dept_phone}}" name="dept_phone">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_hod" style="margin-bottom:10px;">Department HOD</label>
+                    <input type="text" class="form-control" placeholder="Department HOD" value="{{dept.dept_hod}}" name="dept_hod">
+                  </div>
+                  <div class="col" style="margin-bottom:10px;">
+                    <label for="dept_hod_email" style="margin-bottom:10px;" >Department HOD Email</label>
+                    <input type="email" class="form-control" placeholder="Department HOD Email" value="{{dept.dept_hod_email}}"name="dept_hod_email">
+                  </div>
+                </div>
+                <button type="submit" style="margin-top: 10px;" class="btn btn-primary">Update Department</button>
+              </form>
+            </div>
+        </div>
+
+    </div>
+</main>
+{% endblock content %}
