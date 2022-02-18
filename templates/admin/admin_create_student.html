@@ -10,8 +10,8 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="{%url 'admin_create_student'%}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
+                <form action={%url 'admin_create_students'%} method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
                     <div class="row">
                         <div class="col-3" style="width:245px;!important">
                             <img src="{%static 'images/profile_pic.png'%}" style="height:200px; width:200px; margin-bottom:10px;"alt="default profile" class="img-thumbnail" id="profile_image">
@@ -19,7 +19,7 @@
                         <div class="col-10">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="student_firs_name" style="margin-bottom:10px;">First Name</label>
+                                    <label for="student_first_name" style="margin-bottom:10px;">First Name</label>
                                     <input type="text" class="form-control" id="student_first_name" name="first_name" placeholder="Enter Student First Name" style="margin-bottom:30px;">
                                 </div>
                                 <div class="col-md-6">
@@ -41,14 +41,23 @@
                             </div>
                         </div>
                     </div>
+                    
+
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="student_pre_thesis_submission_date" style="margin-bottom:10px;">Pre-thesis Submission Date</label>
-                            <input type="date" class="form-control" id="student_pre_thesis_submission_date" name="pre_thesis_submission_date" placeholder="Enter Student Pre-thesis Submission Date" style="margin-bottom:10px;">
+                            <label for="student_category" style="margin-bottom:10px;">Student Category</label>
+                            <select class="form-control form-select"  style="margin-bottom:10px;" id="student_category" name="student_category">
+                                <option value="">Select Student Category</option>
+                                <option>Genaral</option>
+                                <option>OBC</option>
+                                <option>ST</option>
+                                <option>SC</option>
+                                <option>TFW</option>
+                              </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Defence Date</label>
-                            <input type="date" class="form-control" id="student_defence_date" name="defence_date" placeholder="Enter Student Defence Date" style="margin-bottom:10px;">
+                            <label for="student_scholarship" style="margin-bottom:10px;" default="NO">Scholarship</label>
+                            <input type="text" class="form-control" id="student_scholarship" name="student_scholarship" placeholder="Enter Scholarship Details" style="margin-bottom:10px;">
                         </div>
                     </div>
 
@@ -80,15 +89,15 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="student_roll" style="margin-bottom:10px;">Index Number</label>
-                            <input type="text" class="form-control" id="student_roll" name="index_no" placeholder="Enter Student Roll Number" style="margin-bottom:10px;">
+                            <label for="index_no" style="margin-bottom:10px;">Index Number</label>
+                            <input type="text" class="form-control" id="index_no" name="index_no" placeholder="Enter Student Index Number" style="margin-bottom:10px;">
                         </div>
                         <div class="col-md-3">
                             <label for="student_date_of_reg" style="margin-bottom:10px;">Date of Registration</label>
                             <input type="date" class="form-control" id="student_date_of_reg" name="student_date_of_reg" placeholder="Enter Student Date of Registration" style="margin-bottom:10px;">
                         </div>
                         <div class="col-md-6">
-                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Tittle of Thesis</label>
+                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Title of Thesis</label>
                             <input type="text" class="form-control" id="student_title_of_thesis" name="title_of_thesis" placeholder="Enter Student Title of Thesis" style="margin-bottom:10px;">
                         </div>
                     </div>
@@ -106,11 +115,11 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="student_pre_thesis_submission_date" style="margin-bottom:10px;">Upload Thesis Review Paper 1</label>
+                            <label for="student_thesis_paper_1" style="margin-bottom:10px;">Upload Thesis Review Paper 1</label>
                             <input type="file" class="form-control" id="student_thesis_paper_1" name="thesis_review_paper_1" placeholder="Enter Student Pre-thesis Submission Date" style="margin-bottom:10px;">
                         </div>
                         <div class="col-md-6">
-                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Upload Thesis Review Paper 2</label>
+                            <label for="student_thesis_paper_2" style="margin-bottom:10px;">Upload Thesis Review Paper 2</label>
                             <input type="file" class="form-control" id="student_thesis_paper_2" name="thesis_review_paper_2" placeholder="Enter Student Defence Date" style="margin-bottom:10px;">
                         </div>
                     </div>
@@ -130,11 +139,12 @@
                         </div>
                     </div>
                    
-                <div class="row" style="justify-content:center">
-                    <div class="col-2">
-                        <button type="submit" id="submit"class="btn btn-primary" style="margin-top:10px;margin-bottom:10px;">Add Studnet</button>
-                    </div>
-                </div>
+                    {% comment %} <div class="row" style="justify-content:center">
+                        <div class="col-2">
+                        
+                        </div>
+                    </div> {% endcomment %}
+                    <button type="submit" id="submit"class="btn btn-primary">Add Studnet</button>
                 </form>
                 <span id="error_message1" style="color:red; display:none;"> Fill all fields!<br></span>
                 <span id="error_message2" style="color:red; display:none;"> Password does not match!</span>
@@ -181,7 +191,7 @@
     });
     // disabling the submit button until all fields are filled
     $(document).on('keyup', function() {
-        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_year').val()!='' && $('#student_prof').val()!='' && $('#student_roll').val()!='') {
+        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='' && $('#student_pre_thesis_submission_date').val()!='') {
             $('#submit').prop('disabled', false);
             $('#error_message1').hide();
         } else {
@@ -227,7 +237,7 @@
                         //console.log('email taken');
                     } else {
                         $('#email_error').hide();
-                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_year').val()!='' && $('#student_prof').val()!='' && $('#student_roll').val()!='') {
+                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='' && $('#student_pre_thesis_submission_date').val()!='') {
                             $('#submit').prop('disabled', false);
                         }
                         //console.log('email not taken');
@@ -259,7 +269,7 @@
                         //console.log('username taken');
                     } else {
                         $('#username_error').hide();
-                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_year').val()!='' && $('#student_prof').val()!='' && $('#student_roll').val()!='') {
+                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='' && $('#student_pre_thesis_submission_date').val()!='') {
                             $('#submit').prop('disabled', false);
                         }
                         //console.log('username not taken');

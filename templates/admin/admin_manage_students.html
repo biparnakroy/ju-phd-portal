@@ -16,10 +16,9 @@
                         <tr>
                             <th>Sno.</th>
                             <th>Name</th>
-                            <th>Roll</th>
+                            <th>Index</th>
                             <th>Email</th>
                             <th>Dept.</th>
-                            <th>Year</th>
                             <th>Prof Assigned</th>
                             <th>Action</th>
                         </tr>
@@ -29,10 +28,9 @@
                         <tr>
                             <td>{{ forloop.counter }}.</td>
                             <td>{{student.first_name}} {{student.last_name}}</td>
-                            <td>{{student.student.roll_no}}</td>
+                            <td>{{student.student.index_no}}</td>
                             <td>{{student.email}}</td>
                             <td>{{student.student.student_department.dept_code}}</td>
-                            <td>{{student.student.student_year}}</td>
                             <td>{{student.student.prof_under.user.first_name}} {{student.student.prof_under.user.last_name}}</td>
                             <td>
                                 <a href="{%url 'admin_view_student' student.student.student_uuid%}" class="btn btn-success">View</a>&nbsp;

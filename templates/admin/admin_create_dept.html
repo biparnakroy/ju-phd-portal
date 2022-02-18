@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-body">
               <!--form for new department-->
-              <form action={%url 'admin_create_dept'%} method="POST">
+              <form action="{%url 'admin_create_dept'%}" method="POST">
                 {%csrf_token%}
                 <div class="form-row">
                   <div class="col" style="margin-bottom:10px;">

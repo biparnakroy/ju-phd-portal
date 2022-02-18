@@ -18,7 +18,7 @@ from rest_framework.renderers import JSONRenderer
 
 from juphd_app.models import CustomUser, Admin, Prof, Student, Department, StudentResult
 import uuid
-
+from datetime import datetime
 
 
 # Admin Home Dashboard
@@ -353,7 +353,7 @@ class Create_student_view(APIView):
             return redirect('login')
 
 # Create Student
-class Create_student(APIView):
+class Create_students(APIView):
     permission_classes = (IsAuthenticated,)
     def post(self, request):
         if request.method == 'POST':
@@ -367,12 +367,15 @@ class Create_student(APIView):
                 student_faculty = request.POST.get('student_faculty')
                 student_date_of_reg = request.POST.get('student_date_of_reg')
                 student_category = request.POST.get('student_category')
-                student_scholarship = request.POST.get('student_scholarship')
+                if request.POST.get('student_scholarship'):
+                    student_scholarship = request.POST.get('student_scholarship')
+                else:
+                    student_scholarship = 'No'
                 department = request.POST.get('department')
                 prof_under = request.POST.get('prof_under')
                 title_of_thesis = request.POST.get('title_of_thesis')
                 pre_thesis_submission_date = request.POST.get('pre_thesis_submission_date')
-                defence = request.POST.get('defence')
+                defence = request.POST.get('defence_date')
                 password = request.POST.get('student_password')
 
                 try:
@@ -389,33 +392,38 @@ class Create_student(APIView):
                 # checking if research paper is submitted
                 try:
                     thesis_review_paper_1 = request.FILES['thesis_review_paper_1']
-                    thesis_review_paper_2 = request.FILES['thesis_review_paper_2']
-
+                    fs = FileSystemStorage()
                     # uploading thesis review paper to student thesis review paper folder
                     extent = thesis_review_paper_1.name.split('.')[-1]
-                    filename = 'student/' + first_name+'__'+last_name + '__' + str(uuid.uuid4()) + '.' + extent
-                    fs = FileSystemStorage(location='/paper/')
+                    filename ='papers/'+first_name+'__'+last_name + '__' + str(uuid.uuid4()) + '.' + extent
                     filename = fs.save(filename, thesis_review_paper_1)
                     thesis_review_paper_1_url = fs.url(filename)
+                except:
+                    thesis_review_paper_1_url = None
 
-                    extent = thesis_review_paper_2.name.split('.')[-1]
-                    filename = 'student/' + first_name+'__'+last_name + '__' + str(uuid.uuid4()) + '.' + extent
+                try:
+                    thesis_review_paper_2 = request.FILES['thesis_review_paper_2']
                     fs = FileSystemStorage()
+                    # uploading thesis review paper to student thesis review paper folder
+                    extent = thesis_review_paper_2.name.split('.')[-1]
+                    filename ='papers/'+first_name+'__'+last_name + '__' + str(uuid.uuid4()) + '.' + extent
                     filename = fs.save(filename, thesis_review_paper_2)
                     thesis_review_paper_2_url = fs.url(filename)
                 except:
-                    thesis_review_paper_1_url = None
                     thesis_review_paper_2_url = None
+
+                
                     
                 # making the user
                 if first_name and last_name and username and email and index_no and student_category and student_scholarship and department and prof_under and title_of_thesis and pre_thesis_submission_date and defence and password and student_faculty:
                     student = CustomUser.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name, user_type=3)
                     student.student.student_faculty = student_faculty
                     student.student.index_no = index_no
+                    student.student.student_date_of_reg = student_date_of_reg
                     student.student.student_category = student_category
                     student.student.student_scholarship = student_scholarship
-                    student.student.department = Department.objects.get(department_uuid=department)
-                    student.student.prof_under = CustomUser.objects.get(id=prof_under)
+                    student.student.student_department = Department.objects.get(dept_uuid=department)
+                    student.student.prof_under = Prof.objects.get(prof_uuid=prof_under)
                     student.student.title_of_thesis = title_of_thesis
                     student.student.pre_thesis_submission_date = pre_thesis_submission_date
                     student.student.defence = defence
@@ -428,9 +436,13 @@ class Create_student(APIView):
                     return redirect('admin_manage_students')
                 else:
                     messages.error(request, 'Please fill all the fields')
-                    return redirect('admin_create_student')
+                    print("fill all the fields")
+                    return redirect('admin_create_student_view')
             else:
                 return redirect('login')
+        else:
+            print('error')
+            return redirect('admin_create_students_view')
             
 
 
@@ -458,7 +470,7 @@ class Manage_students_view(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request):
         if request.user.user_type == '1':
-            students = CustomUser.objects.filter(user_type=4)
+            students = CustomUser.objects.filter(user_type=3)
             context = {
                 'students': students,
             }

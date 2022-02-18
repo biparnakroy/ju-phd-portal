@@ -19,26 +19,50 @@
                     </div>
                       <div class="col-4">
                         <ul class="list-group">
-                            <li class="list-group-item" style="padding:15px;">Name :</li>
-                            <li class="list-group-item" style="padding:15px;">Email :</li>
-                            <li class="list-group-item" style="padding:15px;">Username :</li>
-                            <li class="list-group-item" style="padding:15px;">Roll No. :</li>
-                            <li class="list-group-item" style="padding:15px;">Student UID :</li>
-                            <li class="list-group-item" style="padding:15px;">Student Department :</li>
-                            <li class="list-group-item" style="padding:15px;">Student Year :</li>
-                            <li class="list-group-item" style="padding:15px;">Professor Assigned :</li>
+                            <li class="list-group-item" style="padding:5px;">Name :</li>
+                            <li class="list-group-item" style="padding:5px;">Email :</li>
+                            <li class="list-group-item" style="padding:5px;">Username :</li>
+                            <li class="list-group-item" style="padding:5px;">Index No. :</li>
+                            <li class="list-group-item" style="padding:5px;">Date of Registration :</li>
+                            <li class="list-group-item" style="padding:5px;">Student UID :</li>
+                            <li class="list-group-item" style="padding:5px;">Student Category :</li>
+                            <li class="list-group-item" style="padding:5px;">Student Scholarship :</li>
+                            <li class="list-group-item" style="padding:5px;">Student Faculty :</li>
+                            <li class="list-group-item" style="padding:5px;">Student Department :</li>
+                            <li class="list-group-item" style="padding:5px;">Professor Assigned :</li>
+                            <li class="list-group-item" style="padding:5px;">Title of Thesis :</li>
+                            <li class="list-group-item" style="padding:5px;">Pre-Thesis Submission Date :</li>
+                            <li class="list-group-item" style="padding:5px;">Defence Date :</li>
+                            <li class="list-group-item" style="padding:5px;">Thesis Review Paper 1:</li>
+                            <li class="list-group-item" style="padding:5px;">Thesis Review Paper 2:</li>
                         </ul>
                       </div>
                       <div class="col-5">
                         <ul class="list-group">
-                            <li class="list-group-item" style="padding:15px;">{{student.user.first_name}} {{student.user.last_name}}</li>
-                            <li class="list-group-item" style="padding:15px;">{{student.user.email}}</li>
-                            <li class="list-group-item" style="padding:15px;">{{student.user.username}}</li>
-                            <li class="list-group-item" style="padding:15px;">{{student.roll_no}}</li>
-                            <li class="list-group-item" style="padding:15px;">{{student.student_uuid}}</li>
-                            <li class="list-group-item" style="padding:15px;">{{student.student_department}}</li>
-                            <li class="list-group-item" style="padding:15px;">{{student.student_year}}</li>
-                            <li class="list-group-item" style="padding:15px;">{{student.prof_under.user.first_name}} {{student.prof_under.user.last_name}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.user.first_name}} {{student.user.last_name}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.user.email}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.user.username}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.index_no}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.student_date_of_reg}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.student_uuid}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.student_category}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.student_scholarship}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.student_faculty}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.student_department}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.prof_under.user.first_name}} {{student.prof_under.user.last_name}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.title_of_thesis}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.pre_thesis_submission_date}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.defence}}</li>
+                            {% if student.thesis_review_paper_1 %}
+                               <li class="list-group-item" style="padding:5px;"><a href="{{student.thesis_review_paper_1}}">Download</a></li>
+                            {% else %}
+                                <li class="list-group-item" style="color: red; padding:5px;">No File</li>
+                            {% endif %}
+                            {% if student.thesis_review_paper_2 %}
+                               <li class="list-group-item" style="padding:5px;"><a href="{{student.thesis_review_paper_2}}">Download</a></li>
+                            {% else %}
+                                <li class="list-group-item" style="color: red; padding:5px;">No File</li>
+                            {% endif %}
                         </ul>
                       </div>   
                 </div>

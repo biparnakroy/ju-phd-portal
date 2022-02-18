@@ -27,7 +27,7 @@ urlpatterns = [
     path('admin_delete_prof/<prof_uuid>/', admin_views.Delete_prof.as_view(), name="admin_delete_prof"),
 
     path('admin_create_student_view/', admin_views.Create_student_view.as_view(), name="admin_create_student_view"),
-    path('admin_create_student/', admin_views.Create_student.as_view(), name="admin_create_student"),
+    path('admin_create_students/', admin_views.Create_students.as_view(), name="admin_create_students"),
     path('admin_manage_students/', admin_views.Manage_students_view.as_view(), name="admin_manage_students"),
     path('admin_get_dept_profs/', admin_views.Get_department_profs.as_view(), name="admin_get_dept_profs"),
     path('admin_view_student/<student_uuid>/', admin_views.View_student.as_view(), name="admin_view_student"),
