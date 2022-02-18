@@ -43,6 +43,17 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
+                            <label for="student_pre_thesis_submission_date" style="margin-bottom:10px;">Pre-thesis Submission Date</label>
+                            <input type="date" class="form-control" id="student_pre_thesis_submission_date" name="pre_thesis_submission_date" placeholder="Enter Student Pre-thesis Submission Date" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Defence Date</label>
+                            <input type="date" class="form-control" id="student_defence_date" name="defence_date" placeholder="Enter Student Defence Date" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
                             <label for="student_faculty" style="margin-bottom:10px;">Faculty</label>
                             <select class="form-control form-select"  style="margin-bottom:10px;" id="student_faculty" name="student_faculty">
                                 <option>Select Student Faculty</option>
@@ -52,24 +63,55 @@
                                 <option>Interdisciplinary</option>
                               </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="student_department" style="margin-bottom:10px;">Department</label>
                             <select class="form-control form-select"  style="margin-bottom:10px;" id="student_department" name="department">
 
                             </select>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="student_roll" style="margin-bottom:10px;">Index Number</label>
-                            <input type="text" class="form-control" id="student_roll" name="roll_number" placeholder="Enter Student Roll Number" style="margin-bottom:10px;">
-                        </div>
-                        <div class="col-md-6">
+
+                        <div class="col-md-4">
                             <label for="student_prof" style="margin-bottom:10px;">Professor Assigned</label>
                             <select class="form-control form-select"  style="margin-bottom:10px;" id="student_prof" name="prof_under">
-                               
-                               
+                            
                               </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="student_roll" style="margin-bottom:10px;">Index Number</label>
+                            <input type="text" class="form-control" id="student_roll" name="index_no" placeholder="Enter Student Roll Number" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="student_date_of_reg" style="margin-bottom:10px;">Date of Registration</label>
+                            <input type="date" class="form-control" id="student_date_of_reg" name="student_date_of_reg" placeholder="Enter Student Date of Registration" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Tittle of Thesis</label>
+                            <input type="text" class="form-control" id="student_title_of_thesis" name="title_of_thesis" placeholder="Enter Student Title of Thesis" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="student_pre_thesis_submission_date" style="margin-bottom:10px;">Pre-thesis Submission Date</label>
+                            <input type="date" class="form-control" id="student_pre_thesis_submission_date" name="pre_thesis_submission_date" placeholder="Enter Student Pre-thesis Submission Date" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Defence Date</label>
+                            <input type="date" class="form-control" id="student_defence_date" name="defence_date" placeholder="Enter Student Defence Date" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="student_pre_thesis_submission_date" style="margin-bottom:10px;">Upload Thesis Review Paper 1</label>
+                            <input type="file" class="form-control" id="student_thesis_paper_1" name="thesis_review_paper_1" placeholder="Enter Student Pre-thesis Submission Date" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Upload Thesis Review Paper 2</label>
+                            <input type="file" class="form-control" id="student_thesis_paper_2" name="thesis_review_paper_2" placeholder="Enter Student Defence Date" style="margin-bottom:10px;">
                         </div>
                     </div>
 
@@ -77,15 +119,22 @@
                         <label for="student_image" style="margin-bottom:10px;">Student Image</label>
                         <input type="file" class="form-control" id="student_image" name="profile_pic" placeholder="Enter student Image" style="margin-bottom:10px;">
                     </div>
-                    <div class="form-group">
-                        <label for="student_password" style="margin-bottom:10px;">Student Password</label>
-                        <input type="password" class="form-control" id="student_password" name="student_password" placeholder="Enter student Password" style="margin-bottom:10px;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="student_password" style="margin-bottom:10px;">Student Password</label>
+                            <input type="password" class="form-control" id="student_password" name="student_password" placeholder="Enter student Password" style="margin-bottom:20px;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="student_password_confirm" style="margin-bottom:10px;" >Student Password Confirm</label>
+                            <input type="password" class="form-control" id="student_password_confirm" placeholder="Enter student Password Confirm" style="margin-bottom:20px;">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="student_password_confirm" style="margin-bottom:10px;" >Student Password Confirm</label>
-                        <input type="password" class="form-control" id="student_password_confirm" placeholder="Enter student Password Confirm" style="margin-bottom:10px;">
+                   
+                <div class="row" style="justify-content:center">
+                    <div class="col-2">
+                        <button type="submit" id="submit"class="btn btn-primary" style="margin-top:10px;margin-bottom:10px;">Add Studnet</button>
                     </div>
-                   <button type="submit" id="submit"class="btn btn-primary" style="margin-top:10px;margin-bottom:10px;">Submit</button>
+                </div>
                 </form>
                 <span id="error_message1" style="color:red; display:none;"> Fill all fields!<br></span>
                 <span id="error_message2" style="color:red; display:none;"> Password does not match!</span>

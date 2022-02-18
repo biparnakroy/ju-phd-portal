@@ -365,6 +365,7 @@ class Create_student(APIView):
 
                 index_no = request.POST.get('index_no')
                 student_faculty = request.POST.get('student_faculty')
+                student_date_of_reg = request.POST.get('student_date_of_reg')
                 student_category = request.POST.get('student_category')
                 student_scholarship = request.POST.get('student_scholarship')
                 department = request.POST.get('department')
@@ -408,7 +409,7 @@ class Create_student(APIView):
                     
                 # making the user
                 if first_name and last_name and username and email and index_no and student_category and student_scholarship and department and prof_under and title_of_thesis and pre_thesis_submission_date and defence and password and student_faculty:
-                    student = CustomUser.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name, user_type=2)
+                    student = CustomUser.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name, user_type=3)
                     student.student.student_faculty = student_faculty
                     student.student.index_no = index_no
                     student.student.student_category = student_category
@@ -440,7 +441,7 @@ class Get_department_profs(APIView):
     def post(self, request):
         if request.user.user_type == '1':
             department = request.POST.get('department')
-            professors = CustomUser.objects.filter(user_type=3, prof__prof_dept=Department.objects.get(dept_uuid=department))
+            professors = CustomUser.objects.filter(user_type=2, prof__prof_dept=Department.objects.get(dept_uuid=department))
             professors_list = []
             for prof in professors:
                 professors_list.append({

@@ -122,7 +122,7 @@
 
     // disabling the submit button until all fields are filled
    $(document).on('keyup', function() {
-        if($('#prof_first_name').val() != '' && $('#prof_last_name').val() != '' && $('#prof_username').val() != '' && $('#prof_department').val()!='') {
+        if($('#prof_first_name').val() != '' && $('#prof_last_name').val() != '' && $('#prof_username').val() != '' && $('#prof_department').val()!='' && $('#prof_faculty').val()!='' && $('#prof_email').val()!=''){) {
             $('#submit').prop('disabled', false);
             $('#error_message1').hide();
         } else {
@@ -167,7 +167,7 @@
                         //console.log('email taken');
                     } else {
                         $('#email_error').hide();
-                        if($('#prof_first_name').val() != '' && $('#prof_last_name').val() != '' && $('#prof_username').val() != '' && $('#prof_department').val()!='') {
+                        if($('#prof_first_name').val() != '' && $('#prof_last_name').val() != '' && $('#prof_username').val() != '' && $('#prof_department').val()!='' && $('#prof_faculty').val()!='' ) {
                             $('#submit').prop('disabled', false);
                         }
                         //console.log('email not taken');
@@ -199,7 +199,7 @@
                         //console.log('username taken');
                     } else {
                         $('#username_error').hide();
-                        if($('#prof_first_name').val() != '' && $('#prof_last_name').val() != '' && $('#prof_username').val() != '' && $('#prof_department').val()!='') {
+                        if($('#prof_first_name').val() != '' && $('#prof_last_name').val() != '' && $('#prof_username').val() != '' && $('#prof_department').val()!='' && $('#prof_faculty').val()!='' ) {
                             $('#submit').prop('disabled', false);
                         }
                         //console.log('username not taken');

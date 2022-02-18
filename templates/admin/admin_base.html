@@ -148,12 +148,27 @@
             </a>
           </li>
         </ul>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+                <span style="font-size:1rem; color:#6c757d; font-weight:200;">Version: 1.0.1 </span>
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
 
     {% block content %}{% endblock content %}
-
-  </div>
+     {% comment %} <!--footer-->
+    <div class="row">
+      <div class="col-md-12">
+        <footer  class="fixed-bottom" >
+          <p class="text-center"> Jadavpur University PHD Portal | Biparnak Roy</p>
+        </footer>
+      </div>
+    </div>
+  </div> {% endcomment %}
+  
 </div>
     <script src="{%static 'js/bootstrap.bundle.min.js'%}"></script>
     </body>
