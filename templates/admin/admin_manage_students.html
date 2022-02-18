@@ -1,0 +1,49 @@
+{% extends "admin/admin_base.html" %}
+{%load static%}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Manage Students</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <!--displaying all the student details-->
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Name</th>
+                            <th>Roll</th>
+                            <th>Email</th>
+                            <th>Dept.</th>
+                            <th>Year</th>
+                            <th>Prof Assigned</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ forloop.counter }}.</td>
+                            <td>{{student.first_name}} {{student.last_name}}</td>
+                            <td>{{student.student.roll_no}}</td>
+                            <td>{{student.email}}</td>
+                            <td>{{student.student.student_department.dept_code}}</td>
+                            <td>{{student.student.student_year}}</td>
+                            <td>{{student.student.prof_under.user.first_name}} {{student.student.prof_under.user.last_name}}</td>
+                            <td>
+                                <a href="{%url 'admin_view_student' student.student.student_uuid%}" class="btn btn-success">View</a>&nbsp;
+                                <a href="{%url 'admin_edit_student_view' student.student.student_uuid%}" class="btn btn-primary">Edit</a>&nbsp;
+                                <a href="{%url 'admin_delete_student' student.student.student_uuid%}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+{% endblock content%}

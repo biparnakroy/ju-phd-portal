@@ -1,0 +1,50 @@
+{% extends "admin/admin_base.html" %}
+{%load static%}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Manage Professors</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                    <!--displaying all staffs-->
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sno.</th>
+                                    <th>Professor Name</th>
+                                    <th>Professor Username</th>
+                                    <th>Professor Email</th>
+                                    <th>Professor Photo</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for prof in prof_list %}
+                                <tr>
+                                    
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{ prof.first_name }} {{prof.last_name}}</td>
+                                    <td>{{ prof.username }}</td>
+                                    <td>{{ prof.email }}</td>
+                                    <td><img src="{{prof.prof.profile_pic}}" alt="{{ prof.first_name }}" width="50" height="50"></td>
+                                    <td>
+                                        <a href="{%url 'admin_view_prof' prof.prof.prof_uuid%}" class="btn btn-success">View</a>&nbsp;
+                                        <a href="{%url 'admin_edit_prof_view' prof.prof.prof_uuid%}" class="btn btn-primary">Edit</a>&nbsp;
+                                        <a href="{%url 'admin_delete_prof' prof.prof.prof_uuid%}" class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+{% endblock content%}

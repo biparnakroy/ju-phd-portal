@@ -1,0 +1,278 @@
+{% extends "admin/admin_base.html" %}
+{%load static%}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Add A New Student</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="{%url 'admin_create_student'%}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-3" style="width:245px;!important">
+                            <img src="{%static 'images/profile_pic.png'%}" style="height:200px; width:200px; margin-bottom:10px;"alt="default profile" class="img-thumbnail" id="profile_image">
+                        </div>
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="student_firs_name" style="margin-bottom:10px;">First Name</label>
+                                    <input type="text" class="form-control" id="student_first_name" name="first_name" placeholder="Enter Student First Name" style="margin-bottom:30px;">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="student_last_name" style="margin-bottom:10px;">Last Name</label>
+                                    <input type="text" class="form-control" id="student_last_name" name="last_name" placeholder="Enter Student Last Name" style="margin-bottom:30px;">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="student_email" style="margin-bottom:10px;">Email</label>
+                                    <input type="email" class="form-control" id="student_email" name="email" placeholder="Enter Student Email" style="margin-bottom:10px;">
+                                    <span class="text-danger" id="email_error" style="display:none;">Email already taken!</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="student_username" style="margin-bottom:10px;">Username</label>
+                                    <input type="text" class="form-control" id="student_username" name="username" placeholder="Enter Student username" style="margin-bottom:10px;">
+                                    <span class="text-danger" id="username_error" style="display:none;">Username already taken!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="student_faculty" style="margin-bottom:10px;">Faculty</label>
+                            <select class="form-control form-select"  style="margin-bottom:10px;" id="student_faculty" name="student_faculty">
+                                <option>Select Student Faculty</option>
+                                <option>Engineering</option>
+                                <option>Science</option>
+                                <option>Arts</option>
+                                <option>Interdisciplinary</option>
+                              </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="student_department" style="margin-bottom:10px;">Department</label>
+                            <select class="form-control form-select"  style="margin-bottom:10px;" id="student_department" name="department">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="student_roll" style="margin-bottom:10px;">Index Number</label>
+                            <input type="text" class="form-control" id="student_roll" name="roll_number" placeholder="Enter Student Roll Number" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="student_prof" style="margin-bottom:10px;">Professor Assigned</label>
+                            <select class="form-control form-select"  style="margin-bottom:10px;" id="student_prof" name="prof_under">
+                               
+                               
+                              </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="student_image" style="margin-bottom:10px;">Student Image</label>
+                        <input type="file" class="form-control" id="student_image" name="profile_pic" placeholder="Enter student Image" style="margin-bottom:10px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="student_password" style="margin-bottom:10px;">Student Password</label>
+                        <input type="password" class="form-control" id="student_password" name="student_password" placeholder="Enter student Password" style="margin-bottom:10px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="student_password_confirm" style="margin-bottom:10px;" >Student Password Confirm</label>
+                        <input type="password" class="form-control" id="student_password_confirm" placeholder="Enter student Password Confirm" style="margin-bottom:10px;">
+                    </div>
+                   <button type="submit" id="submit"class="btn btn-primary" style="margin-top:10px;margin-bottom:10px;">Submit</button>
+                </form>
+                <span id="error_message1" style="color:red; display:none;"> Fill all fields!<br></span>
+                <span id="error_message2" style="color:red; display:none;"> Password does not match!</span>
+            </div>
+        </div>
+    </div>
+</main>
+{%endblock content%}
+
+
+
+{%block js%}
+<script>
+    // getting get getCookies
+    function getCookie(name){
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    $(document).ready(function(){
+        // upload profile image file to the form
+        $('#profile_image').on('click', function() {
+            $("#student_image").click();
+        });
+        $("#student_image").change(function(){
+            var file = $(this).get(0).files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#profile_image').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file)
+        });
+    });
+    // disabling the submit button until all fields are filled
+    $(document).on('keyup', function() {
+        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_year').val()!='' && $('#student_prof').val()!='' && $('#student_roll').val()!='') {
+            $('#submit').prop('disabled', false);
+            $('#error_message1').hide();
+        } else {
+            $('#submit').prop('disabled', true);
+            $('#error_message1').show();
+        }
+    });
+    // confirming password
+    $(document).on('keyup', function() {
+        if($('#student_password').val() != '' && $('#student_password_confirm').val() != '') {
+            if($('#student_password').val() == $('#student_password_confirm').val()) {
+                $('#error_message2').hide();
+            } else {
+                $('#submit').prop('disabled', true);
+                $('#error_message2').show();
+            }
+        } else {
+            $('#error_message1').show();
+            $('#error_message2').hide();
+        }
+    });
+
+    // checking if email already exists
+    $(document).ready(function(){
+        $('#email_error').hide();
+        $('#username_error').hide();
+        $('#student_email').on('keyup',function(){
+            var email = $('#student_email').val();
+            $.ajax({
+                url: "{% url 'admin_email_check' %}",
+                type: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                data: {
+                    'email': email,
+                },
+                success: function(data){
+                    //console.log(data);
+                    if(data['status'] == 'taken') {
+                        $('#email_error').show();
+                        $('#submit').prop('disabled', true);
+                        //console.log('email taken');
+                    } else {
+                        $('#email_error').hide();
+                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_year').val()!='' && $('#student_prof').val()!='' && $('#student_roll').val()!='') {
+                            $('#submit').prop('disabled', false);
+                        }
+                        //console.log('email not taken');
+                    }
+                }
+            });
+        });
+    });
+
+    // checking if username already exists
+    $(document).ready(function(){
+        $('#username_error').hide();
+        $('#student_username').on('keyup',function(){
+            var username = $('#student_username').val();
+            $.ajax({
+                url: "{% url 'admin_username_check' %}",
+                type: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                data: {
+                    'username': username,
+                },
+                success: function(data){
+                    //console.log(data);
+                    if(data['status'] == 'taken') {
+                        $('#username_error').show();
+                        $('#submit').prop('disabled', true);
+                        //console.log('username taken');
+                    } else {
+                        $('#username_error').hide();
+                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_year').val()!='' && $('#student_prof').val()!='' && $('#student_roll').val()!='') {
+                            $('#submit').prop('disabled', false);
+                        }
+                        //console.log('username not taken');
+                    }
+                }
+            });
+        });
+    });
+    
+    // fetching department professors
+    $(document).ready(function(){
+        $('#student_department').on('change',function(){
+            var department = $('#student_department').val();
+            $.ajax({
+                url: "{% url 'admin_get_dept_profs' %}",
+                type: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                data: {
+                    'department': department,
+                },
+                success: function(data){
+                    console.log(data);
+                    $('#student_prof').empty();
+                    $('#student_prof').append('<option value="">Select Professor</option>');
+                    for(var i=0; i<data.length; i++) {
+                        $('#student_prof').append('<option value="'+data[i]['prof_uuid']+'">'+data[i]['first_name']+' '+data[i]['last_name']+'</option>');
+                    }
+
+                }
+            });
+        });
+    });
+
+    // fetching department of the Faculty
+    $(document).ready(function(){
+        $('#student_faculty').on('change',function(){
+            var faculty = $('#student_faculty').val();
+            $.ajax({
+                url: "{% url 'admin_get_faculty_dept' %}",
+                type: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                data: {
+                    'faculty': faculty,
+                },
+                success: function(data){
+                    console.log(data);
+                    $('#student_department').empty();
+                    $('#student_department').append('<option value="">Select Professor Department</option>');
+                    for(var i=0; i<data.length; i++) {
+                        $('#student_department').append('<option value="'+data[i]['dept_uuid']+'">'+data[i]['dept_name']+'</option>');
+                    }
+
+                }
+            });
+        });
+    });
+
+</script>
+
+
+{%endblock js%}

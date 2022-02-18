@@ -10,17 +10,15 @@
     <meta name="generator" content="Hugo 0.88.1">
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" > 
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" > 
-    {% comment %} <script src="{% static 'js/bootstrap.min.js' %}"></script> {% endcomment %}
-    <!--Bootstrap js cdn-->
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  
+    <script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}" charset="utf-8"></script> 
+    <!--popper js-->
+   
 
     <!--Favicon-->
     <link rel="icon" href="{% static 'images/logo.png' %}" type="image">
-    <title>JURMS | Admin</title>
+    <title>JU PHD | Admin</title>
 
     <style>
       .bd-placeholder-img {
@@ -37,18 +35,26 @@
         }
       }
     </style>
+    <!--collapse sidebar-->
+
+    <script type="text/javascript">
+        function toggleSidebar(){
+            document.getElementById("sidebarMenu").classList.toggle('active');
+            
+        }
+    </script>
     {% block js %}{% endblock js %}
   </head>
   <body>
   {% load icon %}
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{%url 'admin_home'%}"> <img src="{%static 'images/logo.png'%}" style="height:40px; width:40px; margin-right:4px; margin-top:-2px;"/>JURMS</a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{%url 'admin_home'%}"> <img src="{%static 'images/logo.png'%}" style="height:40px; width:40px; margin-right:4px; margin-top:-2px;"/>JU PHD Portal</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleSidebar()">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="{%url 'admin_home'%}"><img src="{%static 'images/user.png'%}" style="height:40px; width:40px; margin-right:4px; margin-top:-2px;"/>{{user.first_name}} {{user.last_name}}</a>
+        <a class="nav-link px-3" href="{%url 'admin_home'%}"><img src="{{user.admin.profile_pic}}" style="height:40px; width:40px; margin-right:4px; margin-top:-2px;"/>{{user.first_name}} {{user.last_name}}</a>
       </div>
     <div class="nav-item text-nowrap">
       <a class="nav-link px-3" href="{%url 'logout_user'%}">Sign out</a>
@@ -89,46 +95,6 @@
           </li>
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Courses</span>
-          <a class="link-secondary" href="#" aria-label="Add a new report">
-           {% icon "chevron-right" %}
-          </a>
-        </h6>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="{%url 'admin_create_course_view'%}">
-              {% icon "book-open" %}
-              Add Courses
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{%url 'admin_manage_courses'%}">
-              {% icon "edit" %}
-              Manage Courses
-            </a>
-          </li>
-        </ul>
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Staffs</span>
-          <a class="link-secondary" href="#" aria-label="Add a new report">
-           {% icon "chevron-right" %}
-          </a>
-        </h6>
-        <ul class="nav flex-column"> 
-           <li class="nav-item">
-            <a class="nav-link" href="#">
-              {% icon "briefcase" %}
-              Add Staff
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              {% icon "edit" %}
-              Manage Staffs
-            </a>
-          </li>
-        </ul>
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Professors</span>
           <a class="link-secondary" href="#" aria-label="Add a new report">
            {% icon "chevron-right" %}
@@ -136,13 +102,13 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{%url 'admin_create_prof_view'%}">
               {% icon "user-check" %}
               Add Professors
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{%url 'admin_manage_profs'%}">
               {% icon "edit" %}
               Manage Professors
             </a>
@@ -156,13 +122,13 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{%url 'admin_create_student_view'%}">
               {% icon "bookmark" %}
               Add Students
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{%url 'admin_manage_students'%}">
               {% icon "edit" %}
               Manage Students
             </a>
@@ -176,7 +142,7 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{%url 'admin_student_result_view'%}">
               {% icon "award" %}
               Add Results
             </a>

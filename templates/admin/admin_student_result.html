@@ -1,0 +1,143 @@
+{% extends "admin/admin_base.html" %}
+{%load static%}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Student Result Portal</h1>
+  </div>
+  <div class="row pt-3 pb-2 mb-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                   <div class="col-2">
+                      Fetch Students :
+                   </div>
+                   <div class="col-4">
+                      <select class="form-control form-select" id="select_department">
+                        <option value="">Select Department</option>
+                        {% for department in departments %}
+                          <option value="{{department.dept_uuid}}">{{department.dept_name}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="col-3">
+                      <select class="form-control form-select" id="select_year">
+                        <option value="">Select year</option>
+                        {% for year in years %}
+                          <option>{{year}}</option>
+                        {% endfor %}
+                      </select>
+                   </div>
+                    <div class="col-3">
+                        <!--Fetch Button-->
+                        <button class="btn btn-primary" id="fetch_student_btn">Fetch Student</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+      <div class="card">
+          <div class="card-body" id="student_data">
+          </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+{% endblock content %}
+
+{%block js%}
+<script>
+  // getting get getCookies
+  function getCookie(name){
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+  }
+
+  //var dept_uuid = $('#select_department').val();
+  //var year = $('#select_year').val();
+
+  // Fetch Student
+  $(document).ready(function(){
+      $('#fetch_student_btn').click(function(){
+          if($('#select_department').val() == '' || $('#select_year').val() == ''){
+            alert('Please select department and year');
+            return false;
+          }
+
+          //console.log($('#select_department').val());
+          //console.log($('#select_year').val());
+
+          $.ajax({
+            url: "{%url 'admin_fetch_students' %}",
+            type: 'POST',
+            headers: {
+              "X-CSRFToken": getCookie('csrftoken')
+            },
+            data: {
+              "department": $('#select_department').val(),
+              "year": $('#select_year').val(),
+            },
+            success: function(response){
+              console.log(response);
+              // making a table with response student list 
+              var table = `
+              <table class="table table-striped ">
+                <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Roll</th>
+                      <th>Email</th>
+                      <th>Prof.</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+              </table>
+              `;
+              $('#student_data').html(table);
+              var table_body = $('.table tbody');
+              for(var i=0; i<response.length; i++){
+                var student_uuid = response[i].student_uuid;
+                var row = `
+                <tr>
+                  <td>${response[i].first_name} ${response[i].last_name}</td>
+                  <td>${response[i].roll_no}</td>
+                  <td>${response[i].email}</td>
+                  <td>${response[i].prof_under}</td>
+                  <td>
+                    <a href="#" class="btn btn-primary">Upload Result</a>&nbsp;
+                    <a href="#" class="btn btn-success">View Result</a>&nbsp;
+                    <a href="#" class="btn btn-warning">Edit Result</a>&nbsp;
+                    <a href="#" class="btn btn-danger">Delete Result</a>&nbsp;
+                  </td>
+                </tr>
+                `;
+                table_body.append(row);
+              }
+            
+            }
+          });
+      });
+  });
+
+</script>
+{%endblock js%}
