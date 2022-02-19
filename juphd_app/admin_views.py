@@ -900,26 +900,22 @@ class Delete_student_result(APIView):
 class Username_check(APIView):
     permission_classes = (IsAuthenticated,)
     def post(self, request):
-        if request.user.user_type == '1':
-            username = request.POST.get('username')
-            user = CustomUser.objects.filter(username=username).exists()
-            if user:
-                return JsonResponse({'status': 'taken'})
-            else:
-                return JsonResponse({'status': 'available'})
+        username = request.POST.get('username')
+        user = CustomUser.objects.filter(username=username).exists()
+        if user:
+            return JsonResponse({'status': 'taken'})
         else:
-            return redirect('login')
+            return JsonResponse({'status': 'available'})
+
 
 #checking if the email is already taken
 class Email_check(APIView):
     permission_classes = (IsAuthenticated,)
     def post(self, request):
-        if request.user.user_type == '1':
-            email = request.POST.get('email')
-            user = CustomUser.objects.filter(email=email).exists()
-            if user:
-                return JsonResponse({'status': 'taken'})
-            else:
-                return JsonResponse({'status': 'available'})
+        email = request.POST.get('email')
+        user = CustomUser.objects.filter(email=email).exists()
+        if user:
+            return JsonResponse({'status': 'taken'})
         else:
-            return redirect('login')
+            return JsonResponse({'status': 'available'})
+      

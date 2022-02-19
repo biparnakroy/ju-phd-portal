@@ -18,7 +18,7 @@
 
     <!--Favicon-->
     <link rel="icon" href="{% static 'images/logo.png' %}" type="image">
-    <title>JU PHD | Admin</title>
+    <title>JU PHD | Professor</title>
 
     <style>
       .bd-placeholder-img {
@@ -54,7 +54,7 @@
   </button>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="{%url 'admin_profile'%}"><img src="{{user.admin.profile_pic}}" style="height:40px; width:40px; margin-right:4px; margin-top:-2px; border-radius:50%;"/>{{user.first_name}} {{user.last_name}}</a>
+        <a class="nav-link px-3" href="{%url 'prof_profile'%}"><img src="{{user.prof.profile_pic}}" style="height:40px; width:40px; margin-right:4px; margin-top:-2px; border-radius:50%;"/>{{user.first_name}} {{user.last_name}}</a>
         <!--Drop down-->
         
 
@@ -71,49 +71,9 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{%url 'admin_home'%}">
+            <a class="nav-link active" aria-current="page" href="{%url 'prof_home'%}">
               {% icon "home" %}
                 Dashboard
-            </a>
-          </li>
-        </ul>
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Departments</span>
-          <a class="link-secondary" href="#" aria-label="Add a new report">
-           {% icon "chevron-right" %}
-          </a>
-        </h6>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="{%url 'admin_create_dept_view'%}">
-              {% icon "book" %}
-              Add Departments
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{%url 'admin_manage_depts'%}">
-              {% icon "edit" %}
-              Manage Departments
-            </a>
-          </li>
-        </ul>
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Professors</span>
-          <a class="link-secondary" href="#" aria-label="Add a new report">
-           {% icon "chevron-right" %}
-          </a>
-        </h6>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="{%url 'admin_create_prof_view'%}">
-              {% icon "user-check" %}
-              Add Professors
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{%url 'admin_manage_profs'%}">
-              {% icon "edit" %}
-              Manage Professors
             </a>
           </li>
         </ul>
@@ -125,17 +85,11 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="{%url 'admin_create_student_view'%}">
+            <a class="nav-link" href="{%url 'prof_view_students'%}">
               {% icon "bookmark" %}
-              Add Students
+              View My Students
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{%url 'admin_manage_students'%}">
-              {% icon "edit" %}
-              Manage Students
-            </a>
-          </li>
+        </li>
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           <span>Results</span>
@@ -145,9 +99,9 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="{%url 'admin_student_result_view'%}">
+            <a class="nav-link" href="{%url 'prof_view_student_results'%}">
               {% icon "award" %}
-              Add Results
+                View Student Results
             </a>
           </li>
         </ul>
@@ -160,10 +114,20 @@
         </ul>
         <ul class="nav flex-column">
           <li class="nav-item">
-           <img class="img-fluid" src="{%static 'images/ju.png'%}" style="height:500px; width:200px; margin-right:4px; margin-top:-2px;"/>
+                </br>
+                </br>
+                </br>   
             </a>
           </li>
         </ul>
+
+        <ul class="nav flex-column">
+
+            <li class="nav-item">
+             <img class="img-fluid" src="{%static 'images/ju.png'%}" style="height:500px; width:300px; margin-right:4px; margin-top:-2px;"/>
+              </a>
+            </li>
+          </ul>
       </div>
     </nav>
 

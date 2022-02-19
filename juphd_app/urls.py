@@ -1,5 +1,5 @@
 from django.urls import path, include , re_path
-from . import views , admin_views 
+from . import views , admin_views , prof_views
 
 urlpatterns = [
     path('', views.loginPage, name='login'),
@@ -46,6 +46,22 @@ urlpatterns = [
     path('admin_edit_student_result_view/<student_uuid>/', admin_views.Edit_student_result_view.as_view(), name="admin_edit_student_result_view"),
     path('admin_edit_student_result/<student_uuid>/', admin_views.Edit_student_result.as_view(), name="admin_edit_student_result"),
     path('admin_delete_student_result/<student_uuid>/', admin_views.Delete_student_result.as_view(), name="admin_delete_student_result"),
+
+    
+    #===================== Prof Views============================
+    path('prof_home/', prof_views.Prof_home.as_view(), name="prof_home"),
+    path('prof_profile/', prof_views.ProfProfileView.as_view(), name="prof_profile"),
+    path('prof_profile_edit/', prof_views.ProfProfileEditView.as_view(), name="prof_profile_edit"),
+    path('prof_profile_update/', prof_views.ProfProfileEdit.as_view(), name="prof_profile_update"),
+    path('prof_view_students/', prof_views.ProfStudentListView.as_view(), name="prof_view_students"),
+    path('prof_view_student/<student_uuid>/', prof_views.ProfStudentView.as_view(), name="prof_view_student"),
+    path('prof_view_student_results/', prof_views.ProfStudentResultListView.as_view(), name="prof_view_student_results"),
+    path('prof_view_student_result/<student_uuid>/', prof_views.ProfStudentResultView.as_view(), name="prof_view_student_result"),
+
+
+
+    #===================== Student Views============================
+
 
     #===================== Form Validation Views============================
     path('admin_email_check/', admin_views.Email_check.as_view(), name="admin_email_check"),

@@ -1,0 +1,44 @@
+{% extends "prof/prof_base.html" %}
+{%load static%}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">List of Published Student Results</h1> 
+  </div>
+  <div class="row pt-3 pb-2 mb-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sno.</th>
+                            <th>Name</th>
+                            <th>Index</th>
+                            <th>Email</th>
+                            <th>Dept.</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    {% for student_result in student_results %}
+                    <tr>
+                        <td>{{ forloop.counter }}.</td>
+                        <td>{{student_result.student_result_student.user.first_name}} {{student_result.student_result_student.user.last_name}}</td>
+                        <td>{{student_result.student_result_student.index_no}}</td>
+                        <td>{{student_result.student_result_student.user.email}}</td>
+                        <td>{{student_result.student_result_student.student_department.dept_code}}</td>
+                        <td>
+                            <a href="{%url 'prof_view_student_result' student_result.student_result_student.student_uuid%}" class="btn btn-success">View Result</a>&nbsp;
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+{% endblock content%}
