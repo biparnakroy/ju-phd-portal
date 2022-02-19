@@ -122,7 +122,7 @@
 
     // disabling the submit button until all fields are filled
    $(document).on('keyup', function() {
-        if($('#prof_first_name').val() != '' && $('#prof_last_name').val() != '' && $('#prof_username').val() != '' && $('#prof_department').val()!='' && $('#prof_faculty').val()!='' && $('#prof_email').val()!=''){) {
+        if($('#prof_first_name').val() != '' && $('#prof_last_name').val() != '' && $('#prof_username').val() != '' && $('#prof_department').val()!='' && $('#prof_faculty').val()!='' && $('#prof_email').val()!=''){
             $('#submit').prop('disabled', false);
             $('#error_message1').hide();
         } else {

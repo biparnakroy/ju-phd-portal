@@ -1,0 +1,20 @@
+{% extends "admin/admin_student_result.html" %}
+
+{%block students%}
+{%if students%}
+    {%for student in students%}
+    <tr>
+      <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+      <td>{{student.index_no}}</td>
+      <td>{{student.user.email}}</td>
+      <td>{{student.student_department.dept_code}}</td>
+      <td>
+        <a href="{%url 'admin_upload_student_result_view' student.student_uuid%}" class="btn btn-primary" id="{{student.index_no}}">Upload Result</a>&nbsp;
+        <a href="{%url 'admin_view_student_result' student.student_uuid%}" class="btn btn-success" id="{{student.index_no}}">View Result</a>&nbsp;
+        <a href="#" class="btn btn-warning" id="{{student.index_no}}">Edit Result</a>&nbsp;
+        <a href="{%url 'admin_delete_student_result' student.student_uuid%}"" class="btn btn-danger" id="{{student.index_no}}">Delete Result</a>
+      </td>
+    </tr>
+    {% endfor %}
+  {%endif%}
+{%endblock students%}

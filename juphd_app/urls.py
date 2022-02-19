@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path, include , re_path
 from . import views , admin_views 
 
 urlpatterns = [
@@ -9,6 +9,9 @@ urlpatterns = [
 
     #===================== Admin Views============================
     path('admin_home/', admin_views.Admin_home.as_view(), name="admin_home"),
+    path('admin_profile/', admin_views.AdminProfileView.as_view(), name="admin_profile"),
+    path('admin_profile_edit/', admin_views.AdminProfileEditView.as_view(), name="admin_profile_edit"),
+    path('admin_profile_update/', admin_views.AdminProfileEdit.as_view(), name="admin_profile_update"),
 
     path('admin_create_dept_view/', admin_views.Create_dept_view.as_view(), name="admin_create_dept_view"),
     path('admin_create_dept/', admin_views.Create_dept.as_view(), name="admin_create_dept"),
@@ -37,7 +40,12 @@ urlpatterns = [
 
     path('admin_student_result_view/', admin_views.Student_result_view.as_view(), name="admin_student_result_view"),
     path('admin_fetch_students/', admin_views.Fetch_students.as_view(), name="admin_fetch_students"),
-    path('admin_upload_student_result_view/', admin_views.Upload_student_result_view.as_view(), name="admin_upload_student_result_view"),
+    path('admin_upload_student_result_view/<student_uuid>', admin_views.Upload_student_result_view.as_view(), name="admin_upload_student_result_view"),
+    path('admin_upload_student_result/<student_uuid>', admin_views.Upload_student_result.as_view(), name="admin_upload_student_result"),
+    path('admin_view_student_result/<student_uuid>/', admin_views.View_student_result.as_view(), name="admin_view_student_result"),
+    path('admin_edit_student_result_view/<student_uuid>/', admin_views.Edit_student_result_view.as_view(), name="admin_edit_student_result_view"),
+    path('admin_edit_student_result/<student_uuid>/', admin_views.Edit_student_result.as_view(), name="admin_edit_student_result"),
+    path('admin_delete_student_result/<student_uuid>/', admin_views.Delete_student_result.as_view(), name="admin_delete_student_result"),
 
     #===================== Form Validation Views============================
     path('admin_email_check/', admin_views.Email_check.as_view(), name="admin_email_check"),

@@ -19,6 +19,74 @@ from rest_framework.renderers import JSONRenderer
 from juphd_app.models import CustomUser, Admin, Prof, Student, Department, StudentResult
 import uuid
 from datetime import datetime
+from django.contrib.auth import authenticate, login, logout
+from juphd_app.EmailBackEnd import EmailBackEnd
+import requests
+# settings 
+from django.conf import settings
+
+
+# Admin Profile View
+class AdminProfileView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        admin = Admin.objects.get(user=request.user)
+        context = {
+            'admin': admin,
+        }
+        return render(request, 'admin/admin_profile.html', context)
+
+# Admin Profile Edit View
+class AdminProfileEditView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        admin = Admin.objects.get(user=request.user)
+        context = {
+            'admin': admin,
+        }
+        return render(request, 'admin/admin_profile_edit.html', context)
+
+# Admin Profile Edit
+class AdminProfileEdit(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        admin = Admin.objects.get(user=request.user)
+        admin.user.first_name = request.POST['first_name']
+        admin.user.last_name = request.POST['last_name']
+        admin.user.email = request.POST['email']
+        password = request.POST['password']
+
+        # Profile Picture
+        if len(request.FILES) != 0:
+            profile_pic = request.FILES['profile_pic']
+            # uploading profile pic to staff profile pic folder
+            extent = profile_pic.name.split('.')[-1]
+            filename = 'admin/' + admin.user.first_name+'__'+ admin.user.last_name + '__' + str(uuid.uuid4()) + '.' + extent
+            fs = FileSystemStorage()
+            filename = fs.save(filename, profile_pic)
+            profile_pic_url = fs.url(filename)
+            admin.profile_pic = profile_pic_url
+
+         # changing password if not empty
+        if password != '':
+            # setting new password
+            admin.user.set_password(password)
+            admin.user.save()
+            # re authenticating user with new password and emailbackend
+            user = EmailBackEnd.authenticate(request, username=admin.user.email, password=password)
+            if user is not None:
+                login(request, user)
+            else :
+                return redirect('login')
+            #user = authenticate(username=admin.user.username, password=password)
+
+        admin.user.save()
+        admin.save()
+
+        return redirect('admin_profile')
 
 
 # Admin Home Dashboard
@@ -257,14 +325,14 @@ class Edit_prof(APIView):
                     prof_custom_user.username = request.POST.get('username')
                     prof_custom_user.email = request.POST.get('email')
                     prof_custom_user.prof.prof_dept = Department.objects.get(dept_name=request.POST.get('department'))
-                    new_password = request.POST.get('staff_password')
+                    new_password = request.POST.get('password')
                     if new_password:
                         prof_custom_user.set_password(new_password)
                     if len(request.FILES) != 0:
                         profile_pic = request.FILES['profile_pic']
                         # uploading profile pic to staff profile pic folder
                         extent = profile_pic.name.split('.')[-1]
-                        filename = 'staff/' + staff_custom_user.first_name+'__'+staff_custom_user.last_name + '__' + str(uuid.uuid4()) + '.' + extent
+                        filename = 'prof/' + prof_custom_user.first_name+'__'+prof_custom_user.last_name + '__' + str(uuid.uuid4()) + '.' + extent
                         fs = FileSystemStorage()
                         filename = fs.save(filename, profile_pic)
                         profile_pic_url = fs.url(filename)
@@ -518,10 +586,16 @@ class Edit_student(APIView):
                 last_name = request.POST.get('last_name')
                 username = request.POST.get('username')
                 email = request.POST.get('email')
-                roll_number = request.POST.get('roll_number')
-                department = request.POST.get('department')
-                student_year = request.POST.get('student_year')
+                student_category = request.POST.get('student_category')
+                student_scholarship = request.POST.get('student_scholarship')
+                student_faculty = request.POST.get('student_faculty')
+                student_department = request.POST.get('department')
                 prof_under = request.POST.get('prof_under')
+                index_no= request.POST.get('index_no')
+                date_of_reg = request.POST.get('student_date_of_reg')
+                title_of_thesis = request.POST.get('title_of_thesis')
+                pre_thesis_submission_date = request.POST.get('pre_thesis_submission_date')
+                defence = request.POST.get('defence_date')  
                 password = request.POST.get('student_password')
 
                 try:
@@ -535,7 +609,46 @@ class Edit_student(APIView):
                 except:
                     profile_pic_url = student.profile_pic
 
-                if first_name and last_name and username and email and roll_number and department and prof_under and student_year:
+                 # checking if research paper is submitted
+                try:
+                    thesis_review_paper_1 = request.FILES['thesis_review_paper_1']
+                    fs = FileSystemStorage()
+                    # uploading thesis review paper to student thesis review paper folder
+                    extent = thesis_review_paper_1.name.split('.')[-1]
+                    filename ='papers/'+first_name+'__'+last_name + '__' + str(uuid.uuid4()) + '.' + extent
+                    filename = fs.save(filename, thesis_review_paper_1)
+                    thesis_review_paper_1_url = fs.url(filename)
+                except:
+                    thesis_review_paper_1_url = student.thesis_review_paper_1
+
+                try:
+                    thesis_review_paper_2 = request.FILES['thesis_review_paper_2']
+                    fs = FileSystemStorage()
+                    # uploading thesis review paper to student thesis review paper folder
+                    extent = thesis_review_paper_2.name.split('.')[-1]
+                    filename ='papers/'+first_name+'__'+last_name + '__' + str(uuid.uuid4()) + '.' + extent
+                    filename = fs.save(filename, thesis_review_paper_2)
+                    thesis_review_paper_2_url = fs.url(filename)
+                except:
+                    thesis_review_paper_2_url = student.thesis_review_paper_2
+
+                # print(first_name)
+                # print(last_name)
+                # print(username)
+                # print(email)
+                # print(student_category)
+                # print(student_scholarship)
+                # print(student_faculty)
+                # print(student_department)
+                # print(prof_under)
+                # print(index_no)
+                # print(date_of_reg)
+                # print(title_of_thesis)
+                # print(pre_thesis_submission_date)
+                # print(defence)
+                
+
+                if first_name and last_name and username and email and student_category and student_scholarship and student_faculty and student_department and prof_under and index_no and date_of_reg and title_of_thesis and pre_thesis_submission_date and defence:
                     student.user.first_name = first_name
                     student.user.last_name = last_name
                     student.user.email = email
@@ -543,15 +656,24 @@ class Edit_student(APIView):
                     if password:
                         student.user.set_password(password)
                     student.user.save()
-                    student.roll_no = roll_number
-                    student.student_department = Department.objects.get(dept_uuid=department)
+                    student.student_category = student_category
+                    student.student_scholarship = student_scholarship
+                    student.student_faculty = student_faculty
+                    student.student_department = Department.objects.get(dept_uuid=student_department)
                     student.prof_under = Prof.objects.get(prof_uuid=prof_under)
-                    student.student_year = student_year
+                    student.index_no = index_no
+                    student.student_date_of_reg = date_of_reg
+                    student.title_of_thesis = title_of_thesis
+                    student.pre_thesis_submission_date = pre_thesis_submission_date
+                    student.defence = defence
+                    student.thesis_review_paper_1 = thesis_review_paper_1_url
+                    student.thesis_review_paper_2 = thesis_review_paper_2_url
                     student.profile_pic = profile_pic_url
                     student.save()
                     messages.success(request, 'Student Updated Successfully')
                     return redirect('admin_home')
                 else:
+                    print('error')
                     messages.error(request, 'All Fields are required')
                     return redirect('admin_edit_student_view', student_uuid)
             else:
@@ -588,11 +710,9 @@ class Student_result_view(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request):
         if request.user.user_type == '1':
-            years = ["First Year", "Second Year", "Third Year", "Fourth Year", "Fifth Year"]
-            departments = Department.objects.all()
+            faculty = ["Engineering", "Science", "Arts", "Interdisciplinary"]
             context = {
-                'years': years,
-                'departments': departments,
+                'faculty': faculty,
             }
             return render(request, 'admin/admin_student_result.html', context)
         else:
@@ -604,77 +724,175 @@ class Fetch_students(APIView):
     def post(self, request):
         if request.method == 'POST':
             if request.user.user_type == '1':
-                year = request.POST.get('year')
+                faculty = ["Engineering", "Science", "Arts", "Interdisciplinary"]
+                query_faculty = request.POST.get('faculty')
                 department = request.POST.get('department')
-                students = Student.objects.filter(student_year=year, student_department=Department.objects.get(dept_uuid=department))
+                students = Student.objects.filter(student_faculty=query_faculty, student_department=Department.objects.get(dept_uuid=department))
                 students_list = []
                 for student in students:
-                    students_list.append({
+                    student_result_exists = StudentResult.objects.filter(student_result_student=student).exists()
+
+                    student_details = {
                         'student_uuid': student.student_uuid,
                         'first_name': student.user.first_name,
                         'last_name': student.user.last_name,
-                         'email': student.user.email,
-                         'prof_under': student.prof_under.user.first_name + ' ' + student.prof_under.user.last_name,
-                        'roll_no': student.roll_no,
-                    })
-                #print("==============real students list==============")
+                        'username': student.user.username,
+                        'email': student.user.email,
+                        'student_category': student.student_category,
+                        'student_scholarship': student.student_scholarship,
+                        'student_faculty': student.student_faculty,
+                        'student_department': student.student_department.dept_name,
+                        'prof_under': student.prof_under.user.first_name + ' ' + student.prof_under.user.last_name,
+                        'index_no': student.index_no,
+                        'student_date_of_reg': student.student_date_of_reg,
+                        'title_of_thesis': student.title_of_thesis,
+                        'pre_thesis_submission_date': student.pre_thesis_submission_date,
+                        'defence': student.defence,
+                        'student_result_exists': student_result_exists,
+                    }
+                    students_list.append(student_details)
                 return JsonResponse(students_list, safe=False)
             else:
                 return redirect('login')
+        else:
+            return redirect('admin_student_result_view')
 
 # Upload Student Result View
 class Upload_student_result_view(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, student_uuid):
-        if request.user.user_type == '1':
-            student = Student.objects.get(student_uuid=student_uuid)
-            context = {
-                'student': student,
-            }
-            return render(request, 'admin/admin_upload_student_result.html', context)
+        if request.method == 'GET':
+            if request.user.user_type == '1':
+                student = Student.objects.get(student_uuid=student_uuid)
+                context = {
+                    'student': student,
+                }
+                return render(request, 'admin/admin_upload_student_result_view.html', context)
+                messages.success(request, 'Student Result Uploaded Successfully')
+            else:
+                return redirect('login')
         else:
             return redirect('login')
 
 # Upload Student Result
 class Upload_student_result(APIView):
     permission_classes = (IsAuthenticated,)
-    def post(self, request):
+    def post(self, request, student_uuid):
         if request.method == 'POST':
             if request.user.user_type == '1':
-                student_uuid = request.POST.get('student_uuid')
                 student = Student.objects.get(student_uuid=student_uuid)
-                student_id = student.user_id
-                student_custom_user = CustomUser.objects.get(id=student_id)
-                student_result = request.POST.get('student_result')
-                student_total_marks = request.POST.get('student_total_marks')
-                student_obtained_marks = request.POST.get('student_obtained_marks')
-                student_percentage = request.POST.get('student_percentage')
-                student_grade = request.POST.get('student_grade')
-                student_remarks = request.POST.get('student_remarks')
-                student_status = request.POST.get('student_status')
+                student_result_id = uuid.uuid4()
+                student_result_student = student
+                student_result_paper_1_number = request.POST.get('paper_1_number')
+                student_result_paper_2_number = request.POST.get('paper_2_number')
 
-                if student_result and student_total_marks and student_obtained_marks and student_percentage and student_grade and student_remarks and student_status:
-                    student_result_obj = StudentResult(
-                        student_uuid = student_uuid,
-                        student_result = student_result,
-                        student_total_marks = student_total_marks,
-                        student_obtained_marks = student_obtained_marks,
-                        student_percentage = student_percentage,
-                        student_grade = student_grade,
-                        student_remarks = student_remarks,
-                        student_status = student_status,
+                # creating the student result
+                if student_result_paper_1_number and student_result_paper_2_number:
+                    student_result = StudentResult(
+                        student_result_id=student_result_id,
+                        student_result_student=student_result_student,
+                        student_result_paper_1_number=student_result_paper_1_number,
+                        student_result_paper_2_number=student_result_paper_2_number,
                     )
-                    student_result_obj.save()
+                    student_result.save()
+
                     messages.success(request, 'Student Result Uploaded Successfully')
-                    return redirect('admin_student_result')
+                    return redirect('admin_view_student_result', student_uuid)
                 else:
                     messages.error(request, 'All Fields are required')
-                    return redirect('admin_student_result')
+                    return redirect('admin_upload_student_result', student_uuid)
+
+                return redirect('admin_student_result_view')
+
             else:
                 return redirect('login')
         else:
             return redirect('login')
 
+
+# Edit Student Result View
+class Edit_student_result_view(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, student_uuid):
+        if request.method == 'GET':
+            if request.user.user_type == '1':
+                student = Student.objects.get(student_uuid=student_uuid)
+                student_result = StudentResult.objects.get(student_result_student=student)
+                context = {
+                    'student': student,
+                    'student_result': student_result,
+                }
+                return render(request, 'admin/admin_edit_student_result_view.html', context)
+            else:
+                return redirect('login')
+        else:
+            return redirect('login')
+
+# Edit Student Result
+class Edit_student_result(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, student_uuid):
+        if request.method == 'POST':
+            if request.user.user_type == '1':
+                student = Student.objects.get(student_uuid=student_uuid)
+                student_result = StudentResult.objects.get(student_result_student=student)
+                student_result_paper_1_number = request.POST.get('paper_1_number')
+                student_result_paper_2_number = request.POST.get('paper_2_number')
+
+                # creating the student result
+                if student_result_paper_1_number and student_result_paper_2_number:
+                    student_result.student_result_paper_1_number = student_result_paper_1_number
+                    student_result.student_result_paper_2_number = student_result_paper_2_number
+                    student_result.save()
+                    messages.success(request, 'Student Result Updated Successfully')
+                    return redirect('admin_view_student_result', student_uuid)
+                else:
+                    messages.error(request, 'All Fields are required')
+                    return redirect('admin_edit_student_result', student_uuid)
+
+                return redirect('admin_student_result_view')
+
+            else:
+                return redirect('login')
+        else:
+            return redirect('login')
+
+
+# View Student Result
+class View_student_result(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, student_uuid):
+        if request.method == 'GET':
+            if request.user.user_type == '1':
+                student = Student.objects.get(student_uuid=student_uuid) 
+                student_result = StudentResult.objects.get(student_result_student=student)
+                if student_result:
+                    context = {
+                        'student': student,
+                        'student_result': student_result,
+                    }
+                    return render(request, 'admin/admin_view_student_result.html', context)
+                else:
+                    messages.error(request, 'Student Result Not Found')
+                    return redirect('admin_student_result_view')
+            else:
+                return redirect('login')
+        else:
+            return redirect('login')
+
+
+# Delete Student Result
+class Delete_student_result(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, student_uuid):
+        if request.user.user_type == '1':
+            student = Student.objects.get(student_uuid=student_uuid)
+            student_result = StudentResult.objects.get(student_result_student=student)
+            student_result.delete()
+            messages.success(request, 'Student Result Deleted Successfully')
+            return redirect('admin_student_result_view')
+        else:
+            return redirect('login')
 
 #=====================Form Validation Function=====================
 
