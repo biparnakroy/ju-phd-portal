@@ -6,7 +6,10 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'juphd.settings')
+    if sys.argv[-1] == 'dev':
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'juphd.dev_settings')
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'arogyadrishti.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -15,7 +18,7 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    execute_from_command_line(sys.argv)
+    execute_from_command_line(sys.argv[:-1])
 
 
 if __name__ == '__main__':
