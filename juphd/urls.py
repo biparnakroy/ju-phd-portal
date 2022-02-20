@@ -16,13 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from juphd import settings
+from juphd import settings , dev_settings
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #path('admin/', admin.site.urls),
     path('', include('juphd_app.urls')),
 ]
-if settings.DEBUG:
-  urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG == None or settings.DEBUG == True:
+  urlpatterns += static(dev_settings.STATIC_URL, document_root=dev_settings.STATICFILES_DIRS)
+  urlpatterns += static(dev_settings.MEDIA_URL, document_root=dev_settings.MEDIA_ROOT)
