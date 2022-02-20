@@ -5,4 +5,4 @@ __pycache__/
 dev_settings.py
 db.sqlite3
 venv-juphd/
-.env/
+.env
