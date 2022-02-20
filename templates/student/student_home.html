@@ -1,0 +1,106 @@
+{% extends "student/student_base.html" %}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Welcome {{student.user.first_name}} {{student.user.last_name}}</h3>
+                <hr>
+                <p class="card-text">
+                    <div class="row">
+                        <div class="col-2" style="width:250px;!important">
+                            <img src="{{student.profile_pic}}" style="height:200px; width:200px; margin-bottom:10px;"alt="default profile" class="img-thumbnail" id="profile_image">
+                        </div>
+                        <div class="col">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>{{student.user.email}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Username</td>
+                                        <td>{{student.user.username}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Index No.</td>
+                                        <td>{{student.index_no}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date of Registration</td>
+                                        <td>{{student.student_date_of_reg}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Student Category</td>
+                                        <td>{{student.student_category}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Scholarship</td>
+                                        <td>{{student.student_scholarship}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Faculty</td>
+                                        <td>{{student.student_faculty}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Department</td>
+                                        <td>{{student.student_department.dept_name}}</td>
+                                    </tr>
+                                  
+                                    <tr>
+                                        <td>Professor</td>
+                                        <td>{{student.prof_under.user.first_name}} {{student.prof_under.user.last_name}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Title of Thesis</td>
+                                        <td>{{student.title_of_thesis}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Pre-Thesis Submission</td>
+                                        <td>{{student.pre_thesis_submission_date}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Defence</td>
+                                        <td>{{student.defence}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Thesis Review Paper 1</td>
+                                        {%if student.thesis_review_paper_1%}
+                                            <td><a href="{{student.thesis_review_paper_1}}">Download</a></td>
+                                        {%else%}
+                                            <td style="color:red;">No File.</td>
+                                        {%endif%}
+                                    </tr>
+                                    <tr>
+                                        <td>Thesis Review Paper 2</td>
+                                        {%if student.thesis_review_paper_2%}
+                                            <td><a href="{{student.thesis_review_paper_2}}">Download</a></td>
+                                        {%else%}
+                                            <td style="color:red;">No File.</td>
+                                        {%endif%}
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </p>
+            </div>
+        </div>
+  </div>
+
+</main>
+{% endblock content %}

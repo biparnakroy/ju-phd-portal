@@ -71,9 +71,9 @@ class ProfProfileEdit(APIView):
         # profile picture upload
         if len(request.FILES) != 0:
             profile_pic = request.FILES['profile_pic']
-            ext = prof_pic.name.split('.')[-1]
+            ext = profile_pic.name.split('.')[-1]
             fs = FileSystemStorage()
-            filename =   filename = 'prof/' + prof_custom_user.first_name+'__'+prof_custom_user.last_name + '__' + str(uuid.uuid4()) + '.' + ext
+            filename =   filename = 'prof/' + prof.user.first_name+'__'+prof.user.last_name + '__' + str(uuid.uuid4()) + '.' + ext
             filename = fs.save(filename, profile_pic)
             prof.profile_pic = fs.url(filename)
 

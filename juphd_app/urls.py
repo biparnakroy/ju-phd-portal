@@ -1,10 +1,15 @@
 from django.urls import path, include , re_path
-from . import views , admin_views , prof_views
+from . import views , admin_views , prof_views , student_views
+#from users.views import ResetPasswordView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.loginPage, name='login'),
+    #path('index/', views.index, name='index'),
     path('doLogin/', views.doLogin, name="doLogin"),
-    path('password_reset/', views.password_reset, name="password_reset"),
+    path('password_reset/', views.ResetPasswordView.as_view(), name="password_reset"),
+    path('password-reset-confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'),name='password_reset_confirm'),
+    path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),name='password_reset_complete'),
     path('logout_user/', views.logout_user, name="logout_user"),
 
     #===================== Admin Views============================
@@ -61,6 +66,12 @@ urlpatterns = [
 
 
     #===================== Student Views============================
+    path('student_home/', student_views.Student_home.as_view(), name="student_home"),
+    path('student_profile/', student_views.StudentProfileView.as_view(), name="student_profile"),
+    path('student_profile_edit/', student_views.studentProfileEditView.as_view(), name="student_profile_edit"),
+    path('student_profile_update/', student_views.StudentProfileEdit.as_view(), name="student_profile_update"),
+    path('student_view_prof/', student_views.StudentProfView.as_view(), name="student_view_prof"),
+    path('student_view_result/', student_views.StudentResultView.as_view(), name="student_view_result"),
 
 
     #===================== Form Validation Views============================

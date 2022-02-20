@@ -232,7 +232,7 @@
 
   // Auto fetching students on page load
   $(document).ready(function(){
-    if ($('#select_department').val() != '' && $('#select_faculty').val() != 'Select Faculty'){
+    if ($('#select_department').val() != '' && $('#select_faculty').val() != ''){
           $.ajax({
             url: "{%url 'admin_fetch_students' %}",
             type: 'POST',

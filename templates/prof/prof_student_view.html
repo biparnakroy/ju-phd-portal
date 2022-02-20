@@ -24,7 +24,7 @@
                             <li class="list-group-item" style="padding:5px;">Username :</li>
                             <li class="list-group-item" style="padding:5px;">Index No. :</li>
                             <li class="list-group-item" style="padding:5px;">Date of Registration :</li>
-                            <li class="list-group-item" style="padding:5px;">Student UID :</li>
+                            {% comment %} <li class="list-group-item" style="padding:5px;">Student UID :</li> {% endcomment %}
                             <li class="list-group-item" style="padding:5px;">Student Category :</li>
                             <li class="list-group-item" style="padding:5px;">Student Scholarship :</li>
                             <li class="list-group-item" style="padding:5px;">Student Faculty :</li>
@@ -44,7 +44,7 @@
                             <li class="list-group-item" style="padding:5px;">{{student.user.username}}</li>
                             <li class="list-group-item" style="padding:5px;">{{student.index_no}}</li>
                             <li class="list-group-item" style="padding:5px;">{{student.student_date_of_reg}}</li>
-                            <li class="list-group-item" style="padding:5px;">{{student.student_uuid}}</li>
+                            {% comment %} <li class="list-group-item" style="padding:5px;">{{student.student_uuid}}</li> {% endcomment %}
                             <li class="list-group-item" style="padding:5px;">{{student.student_category}}</li>
                             <li class="list-group-item" style="padding:5px;">{{student.student_scholarship}}</li>
                             <li class="list-group-item" style="padding:5px;">{{student.student_faculty}}</li>

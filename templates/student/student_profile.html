@@ -1,10 +1,10 @@
-{% extends "prof/prof_base.html" %}
+{% extends "student/student_base.html" %}
 {%load static%}
 
 {% block content %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">{{prof.user.first_name}} {{prof.user.last_name}}</h1> 
+    <h1 class="h2">{{student.user.first_name}} {{student.user.last_name}}</h1> 
   </div>
   <div class="row pt-3 pb-2 mb-3">
     <div class="col-md-12">
@@ -12,7 +12,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-3">
-                      <img src="{{prof.profile_pic}}" style="height:310px; width:300px;border-radius:5px;" alt="{{prof.user.first_name}} {{prof.user.last_name}}" class="img-fluid">
+                      <img src="{{student.profile_pic}}" style="height:310px; width:300px;border-radius:5px;" alt="{{student.user.first_name}} {{student.user.last_name}}" class="img-fluid">
                     </div>
                     <div class="col">
                       <ul class="list-group">
@@ -22,17 +22,17 @@
                         {% comment %} <li class="list-group-item" style="padding:15px;">Professor UID :</li> {% endcomment %}
                         <li class="list-group-item" style="padding:15px;">Department :</li>
                         <li class="list-group-item" style="padding:15px;">Faculty :</li>
-                        <a  class="btn btn-primary"  href="{%url 'prof_profile_edit'%}" style="margin-top:20px;">Edit Profile </a>
+                        <a  class="btn btn-primary"  href="{%url 'student_profile_edit'%}" style="margin-top:20px;">Edit Profile </a>
                     </ul>
                     </div>
                     <div class="col">
                       <ul class="list-group">
-                        <li class="list-group-item"  style="padding:15px;">{{prof.user.first_name}} {{prof.user.last_name}}</li>
-                        <li class="list-group-item"  style="padding:15px;">{{prof.user.email}}</li>
-                        <li class="list-group-item"  style="padding:15px;">{{prof.user.username}}</li>
-                        {% comment %} <li class="list-group-item"  style="padding:15px;">{{prof.prof_uuid}}</li> {% endcomment %}
-                        <li class="list-group-item"  style="padding:15px;">{{prof.prof_dept.dept_name}}</li>
-                        <li class="list-group-item"  style="padding:15px;">{{prof.prof_faculty}}</li>
+                        <li class="list-group-item"  style="padding:15px;">{{student.user.first_name}} {{student.user.last_name}}</li>
+                        <li class="list-group-item"  style="padding:15px;">{{student.user.email}}</li>
+                        <li class="list-group-item"  style="padding:15px;">{{student.user.username}}</li>
+                        {% comment %} <li class="list-group-item"  style="padding:15px;">{{student.student_uuid}}</li> {% endcomment %}
+                        <li class="list-group-item"  style="padding:15px;">{{student.student_department.dept_name}}</li>
+                        <li class="list-group-item"  style="padding:15px;">{{student.student_faculty}}</li>
                         </ul>
                     </div>
                 </div>

@@ -1,0 +1,56 @@
+{% extends "student/student_base.html" %}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">My Result</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">
+                    <div class="row">
+                        <div class="col">
+                            {%if student_result%}
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>Student Name</td>
+                                            <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Student Index no.</td>
+                                            <td>{{student.index_no}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Faculty</td>
+                                            <td>{{student.student_faculty}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Department</td>
+                                            <td>{{student.student_department.dept_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Review Paper 1 marks</td>
+                                            <td>{{student_result.student_result_paper_1_number}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Review Paper 2 marks</td>
+                                            <td>{{student_result.student_result_paper_2_number}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            {%else%}
+                                <h3>No result found</h3>
+                            {%endif%}
+                        </div>
+
+                    </div>
+                </p>
+            </div>
+        </div>
+  </div>
+
+</main>
+{% endblock content %}
