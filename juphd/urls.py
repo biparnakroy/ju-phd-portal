@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from juphd import settings , dev_settings
+from juphd import settings
 
 
 urlpatterns = [
@@ -24,5 +24,5 @@ urlpatterns = [
     path('', include('juphd_app.urls')),
 ]
 if settings.DEBUG == None or settings.DEBUG == True:
-  urlpatterns += static(dev_settings.STATIC_URL, document_root=dev_settings.STATICFILES_DIRS)
-  urlpatterns += static(dev_settings.MEDIA_URL, document_root=dev_settings.MEDIA_ROOT)
+  urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
+  urlpatterns += static(settings.MEDIA_URL, document_root=dev_settings.MEDIA_ROOT)
