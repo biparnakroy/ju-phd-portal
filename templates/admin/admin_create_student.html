@@ -278,6 +278,38 @@
             });
         });
     });
+
+    // checking if index number already exists
+    $(document).ready(function(){
+        $('#index_error').hide();
+        $('#index_no').on('keyup',function(){
+            var index = $('#index_no').val();
+            $.ajax({
+                url: "{% url 'admin_index_check' %}",
+                type: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie('csrftoken')
+                },
+                data: {
+                    'index': index,
+                },
+                success: function(data){
+                    //console.log(data);
+                    if(data['status'] == 'taken') {
+                        $('#index_error').show();
+                        $('#submit').prop('disabled', true);
+                        //console.log('index taken');
+                    } else {
+                        $('#index_error').hide();
+                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_password').val() != '' && $('#student_password_confirm').val() != '' && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='' && $('#student_pre_thesis_submission_date').val()!='') {
+                            $('#submit').prop('disabled', false);
+                        }
+                        //console.log('index not taken');
+                    }
+                }
+            });
+        });
+    });
     
     // fetching department professors
     $(document).ready(function(){

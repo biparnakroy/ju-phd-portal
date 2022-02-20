@@ -919,3 +919,13 @@ class Email_check(APIView):
         else:
             return JsonResponse({'status': 'available'})
       
+# checking if the student index number is already taken
+class Student_index_number_check(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        student_index_number = request.POST.get('student_index_number')
+        student = Student.objects.filter(index_no=student_index_number).exists()
+        if student:
+            return JsonResponse({'status': 'taken'})
+        else:
+            return JsonResponse({'status': 'available'})
