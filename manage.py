@@ -9,7 +9,7 @@ def main():
     if sys.argv[-1] == 'dev':
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'juphd.dev_settings')
     else:
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'arogyadrishti.settings')
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'juphd.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
