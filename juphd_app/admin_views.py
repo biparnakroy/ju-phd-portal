@@ -25,6 +25,9 @@ import requests
 # settings 
 from django.conf import settings
 
+# boto3
+import boto3
+
 
 # Admin Profile View
 class AdminProfileView(APIView):
@@ -161,18 +164,36 @@ class Create_dept(APIView):
         else:
             return redirect('login')
 
+
 class Manage_dept_view(APIView):
     permission_classes = (IsAuthenticated,)
-
     def get(self, request):
         if request.user.user_type == '1':
-            depts = Department.objects.all()
+            faculty = ["Engineering", "Science", "Arts", "Interdisciplinary"]
             context = {
-                'department_list': depts,
+                'faculty': faculty,
             }
             return render(request, 'admin/admin_manage_depts.html', context)
         else:
             return redirect('login')
+
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        if request.user.user_type == '1':
+            #filter by faculty
+            faculty = request.POST.get('faculty')
+            faculty_list = ["Engineering", "Science", "Arts", "Interdisciplinary"]
+            
+            if faculty == 'All':
+                depts = Department.objects.all()
+            else:
+                depts = Department.objects.filter(dept_faculty=faculty)
+                print(depts)
+            context = {
+                'depts': depts,
+                'faculty': faculty_list,
+            }
+            return render(request, 'admin/admin_manage_depts.html', context)
 
 class Edit_dept_view(APIView):
     permission_classes = (IsAuthenticated,)
@@ -281,14 +302,32 @@ class Create_prof(APIView):
         else:
             return render('login')
 
+
+
 # Manage Profs View
 class Manage_prof_view(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request):
         if request.user.user_type == '1':
-            profs = CustomUser.objects.filter(user_type=2)
+            faculty = ["Engineering", "Science", "Arts", "Interdisciplinary"]
+            context = {
+                'faculty': faculty,
+            }
+            return render(request, 'admin/admin_manage_profs.html', context)
+        else:
+            return redirect('login')
+
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        if request.user.user_type == '1':
+            # filter professors by department
+            department = request.POST.get('department')
+            faculty = ["Engineering", "Science", "Arts", "Interdisciplinary"]
+            if department:
+                profs = CustomUser.objects.filter(user_type=2, prof__prof_dept__dept_uuid=department)
             context = {
                 'prof_list': profs,
+                'faculty': faculty,
             }
             return render(request, 'admin/admin_manage_profs.html', context)
         else:
@@ -442,8 +481,36 @@ class Create_students(APIView):
                 department = request.POST.get('department')
                 prof_under = request.POST.get('prof_under')
                 title_of_thesis = request.POST.get('title_of_thesis')
-                pre_thesis_submission_date = request.POST.get('pre_thesis_submission_date')
-                defence = request.POST.get('defence_date')
+                if request.POST.get('pre_thesis_submission_date'):
+                    pre_thesis_submission_date = request.POST.get('pre_thesis_submission_date')
+                else:
+                    pre_thesis_submission_date = "Yet to be decelared"
+                if request.POST.get('defence_date'):
+                    defence = request.POST.get('defence_date')
+                else:
+                    defence = "Yet to be decelared"
+
+                if request.POST.get('publication_doi_link'):
+                    publication_doi_link = request.POST.get('publication_doi_link')
+                else:
+                    publication_doi_link = "No Link Available"
+                
+                if request.POST.get('ext_start_date'):
+                    ext_start_date = request.POST.get('ext_start_date')
+                else:
+                    ext_start_date = "Not Extended Yet"
+                
+                if request.POST.get('ext_end_date'):
+                    ext_end_date = request.POST.get('ext_end_date')
+                else:
+                    ext_end_date = "Not Extended Yet"
+
+                if request.POST.get('changed_title_of_thesis'):
+                    changed_title_of_thesis = request.POST.get('changed_title_of_thesis')
+                else:
+                    changed_title_of_thesis = "No"
+
+
                 password = request.POST.get('student_password')
 
                 try:
@@ -454,8 +521,9 @@ class Create_students(APIView):
                     fs = FileSystemStorage()
                     filename = fs.save(filename, profile_pic)
                     profile_pic_url = fs.url(filename)
+
                 except:
-                    profile_pic_url = "/media/student/user.png"
+                    profile_pic_url = settings.MEDIA_URL+"student/user.png"
 
                 # checking if research paper is submitted
                 try:
@@ -470,6 +538,7 @@ class Create_students(APIView):
                     thesis_review_paper_1_url = None
 
                 try:
+                    
                     thesis_review_paper_2 = request.FILES['thesis_review_paper_2']
                     fs = FileSystemStorage()
                     # uploading thesis review paper to student thesis review paper folder
@@ -477,9 +546,79 @@ class Create_students(APIView):
                     filename ='papers/'+first_name+'__'+last_name + '__' + str(uuid.uuid4()) + '.' + extent
                     filename = fs.save(filename, thesis_review_paper_2)
                     thesis_review_paper_2_url = fs.url(filename)
+                  
                 except:
                     thesis_review_paper_2_url = None
 
+                # Examiner panel
+                try:
+                    examiner_1_name = request.POST.get('examiner_1_name')
+                    examiner_1_aff = request.POST.get('examiner_1_aff')
+                    examiner_1_number = request.POST.get('examiner_1_number')
+
+                    examiner_2_name = request.POST.get('examiner_2_name')
+                    examiner_2_aff = request.POST.get('examiner_2_aff')
+                    examiner_2_number = request.POST.get('examiner_2_number')
+
+
+                    examiner_3_name = request.POST.get('examiner_3_name')
+                    examiner_3_aff = request.POST.get('examiner_3_aff')
+                    examiner_3_number = request.POST.get('examiner_3_number')
+
+                    examiner_4_name = request.POST.get('examiner_4_name')
+                    examiner_4_aff = request.POST.get('examiner_4_aff')
+                    examiner_4_number = request.POST.get('examiner_4_number')
+
+                    examiner_5_name = request.POST.get('examiner_5_name')
+                    examiner_5_aff = request.POST.get('examiner_5_aff')
+                    examiner_5_number = request.POST.get('examiner_5_number')
+                    
+                    examiner_6_name = request.POST.get('examiner_6_name')
+                    examiner_6_aff = request.POST.get('examiner_6_aff')
+                    examiner_6_number = request.POST.get('examiner_6_number')
+                except:
+                    examiner_1_name = None
+                    examiner_1_aff = None
+                    examiner_1_number = None
+
+                    examiner_2_name = None
+                    examiner_2_aff = None
+                    examiner_2_number = None
+
+                    examiner_3_name = None
+                    examiner_3_aff = None
+                    examiner_3_number = None
+
+                    examiner_4_name = None
+                    examiner_4_aff = None
+                    examiner_4_number = None
+
+                    examiner_5_name = None
+                    examiner_5_aff = None
+                    examiner_5_number = None
+
+                    examiner_6_name = None
+                    examiner_6_aff = None
+                    examiner_6_number = None
+
+                # Expert on Viva
+                try:
+                    viva_expert_1_name = request.POST.get('viva_expert_1_name')
+                    viva_expert_1_aff = request.POST.get('viva_expert_1_aff')
+                    viva_expert_1_number = request.POST.get('viva_expert_1_number')
+
+                    viva_expert_2_name = request.POST.get('viva_expert_2_name')
+                    viva_expert_2_aff = request.POST.get('viva_expert_2_aff')
+                    viva_expert_2_number = request.POST.get('viva_expert_2_number')
+                except:
+                    viva_expert_1_name = None
+                    viva_expert_1_aff = None
+                    viva_expert_1_number = None
+
+                    viva_expert_2_name = None
+                    viva_expert_2_aff = None
+                    viva_expert_2_number = None
+                
                 
                     
                 # making the user
@@ -492,6 +631,44 @@ class Create_students(APIView):
                     student.student.student_scholarship = student_scholarship
                     student.student.student_department = Department.objects.get(dept_uuid=department)
                     student.student.prof_under = Prof.objects.get(prof_uuid=prof_under)
+                    student.student.changed_title_of_thesis = changed_title_of_thesis
+                    student.student.publication_doi_link = publication_doi_link
+                    student.student.ext_start_date = ext_start_date
+                    student.student.ext_end_date = ext_end_date
+
+                    student.student.examiner_panel_1_name = examiner_1_name
+                    student.student.examiner_panel_1_aff = examiner_1_aff
+                    student.student.examiner_panel_1_number = examiner_1_number
+
+                    student.student.examiner_panel_2_name = examiner_2_name
+                    student.student.examiner_panel_2_aff = examiner_2_aff
+                    student.student.examiner_panel_2_number = examiner_2_number
+
+                    student.student.examiner_panel_3_name = examiner_3_name
+                    student.student.examiner_panel_3_aff = examiner_3_aff
+                    student.student.examiner_panel_3_number = examiner_3_number
+
+                    student.student.examiner_panel_4_name = examiner_4_name
+                    student.student.examiner_panel_4_aff = examiner_4_aff
+                    student.student.examiner_panel_4_number = examiner_4_number
+
+                    student.student.examiner_panel_5_name = examiner_5_name
+                    student.student.examiner_panel_5_aff = examiner_5_aff
+                    student.student.examiner_panel_5_number = examiner_5_number
+
+                    student.student.examiner_panel_6_name = examiner_6_name
+                    student.student.examiner_panel_6_aff = examiner_6_aff
+                    student.student.examiner_panel_6_number = examiner_6_number
+
+                    student.student.viva_expert_1_name = viva_expert_1_name
+                    student.student.viva_expert_1_aff = viva_expert_1_aff
+                    student.student.viva_expert_1_number = viva_expert_1_number
+
+                    student.student.viva_expert_2_name = viva_expert_2_name
+                    student.student.viva_expert_2_aff = viva_expert_2_aff
+                    student.student.viva_expert_2_number = viva_expert_2_number
+
+
                     student.student.title_of_thesis = title_of_thesis
                     student.student.pre_thesis_submission_date = pre_thesis_submission_date
                     student.student.defence = defence
@@ -538,9 +715,23 @@ class Manage_students_view(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request):
         if request.user.user_type == '1':
-            students = CustomUser.objects.filter(user_type=3)
+            faculty = ["Engineering", "Science", "Arts", "Interdisciplinary"]
+            context = {
+                'faculty': faculty,
+            }
+            return render(request, 'admin/admin_manage_students.html', context)
+        else:
+            return redirect('login')
+
+    def post(self, request):
+        if request.user.user_type == '1':
+            faculty = ["Engineering", "Science", "Arts", "Interdisciplinary"]
+            department = request.POST.get('department')
+            students = CustomUser.objects.filter(user_type=3, student__student_department=Department.objects.get(dept_uuid=department))
+            #students = CustomUser.objects.filter(user_type=3)
             context = {
                 'students': students,
+                'faculty': faculty,
             }
             return render(request, 'admin/admin_manage_students.html', context)
         else:
@@ -594,8 +785,33 @@ class Edit_student(APIView):
                 index_no= request.POST.get('index_no')
                 date_of_reg = request.POST.get('student_date_of_reg')
                 title_of_thesis = request.POST.get('title_of_thesis')
-                pre_thesis_submission_date = request.POST.get('pre_thesis_submission_date')
-                defence = request.POST.get('defence_date')  
+                if request.POST.get('pre_thesis_submission_date'):  
+                    pre_thesis_submission_date = request.POST.get('pre_thesis_submission_date')
+                else:
+                    pre_thesis_submission_date = "Yet to be decleared"
+                if request.POST.get('defence_date'):
+                    defence = request.POST.get('defence_date')
+                else:
+                    defence = "Yet to be decleared"
+                if request.POST.get('publication_doi_link'):
+                    publication_doi_link = request.POST.get('publication_doi_link')
+                else:
+                    publication_doi_link = "No Link Available"
+                
+                if request.POST.get('ext_start_date'):
+                    ext_start_date = request.POST.get('ext_start_date')
+                else:
+                    ext_start_date = "Not Extended Yet"
+                
+                if request.POST.get('ext_end_date'):
+                    ext_end_date = request.POST.get('ext_end_date')
+                else:
+                    ext_end_date = "Not Extended Yet"
+
+                if request.POST.get('changed_title_of_thesis'):
+                    changed_title_of_thesis = request.POST.get('changed_title_of_thesis')
+                else:
+                    changed_title_of_thesis = "No"
                 password = request.POST.get('student_password')
 
                 try:
@@ -606,6 +822,7 @@ class Edit_student(APIView):
                     fs = FileSystemStorage()
                     filename = fs.save(filename, profile_pic)
                     profile_pic_url = fs.url(filename)
+
                 except:
                     profile_pic_url = student.profile_pic
 
@@ -632,6 +849,76 @@ class Edit_student(APIView):
                 except:
                     thesis_review_paper_2_url = student.thesis_review_paper_2
 
+
+                # Examiner panel
+                try:
+                    examiner_1_name = request.POST.get('examiner_1_name')
+                    examiner_1_aff = request.POST.get('examiner_1_aff')
+                    examiner_1_number = request.POST.get('examiner_1_number')
+
+                    examiner_2_name = request.POST.get('examiner_2_name')
+                    examiner_2_aff = request.POST.get('examiner_2_aff')
+                    examiner_2_number = request.POST.get('examiner_2_number')
+
+
+                    examiner_3_name = request.POST.get('examiner_3_name')
+                    examiner_3_aff = request.POST.get('examiner_3_aff')
+                    examiner_3_number = request.POST.get('examiner_3_number')
+
+                    examiner_4_name = request.POST.get('examiner_4_name')
+                    examiner_4_aff = request.POST.get('examiner_4_aff')
+                    examiner_4_number = request.POST.get('examiner_4_number')
+
+                    examiner_5_name = request.POST.get('examiner_5_name')
+                    examiner_5_aff = request.POST.get('examiner_5_aff')
+                    examiner_5_number = request.POST.get('examiner_5_number')
+                    
+                    examiner_6_name = request.POST.get('examiner_6_name')
+                    examiner_6_aff = request.POST.get('examiner_6_aff')
+                    examiner_6_number = request.POST.get('examiner_6_number')
+                except:
+                    examiner_1_name = None
+                    examiner_1_aff = None
+                    examiner_1_number = None
+
+                    examiner_2_name = None
+                    examiner_2_aff = None
+                    examiner_2_number = None
+
+                    examiner_3_name = None
+                    examiner_3_aff = None
+                    examiner_3_number = None
+
+                    examiner_4_name = None
+                    examiner_4_aff = None
+                    examiner_4_number = None
+
+                    examiner_5_name = None
+                    examiner_5_aff = None
+                    examiner_5_number = None
+
+                    examiner_6_name = None
+                    examiner_6_aff = None
+                    examiner_6_number = None
+
+                # Expert on Viva
+                try:
+                    viva_expert_1_name = request.POST.get('viva_expert_1_name')
+                    viva_expert_1_aff = request.POST.get('viva_expert_1_aff')
+                    viva_expert_1_number = request.POST.get('viva_expert_1_number')
+
+                    viva_expert_2_name = request.POST.get('viva_expert_2_name')
+                    viva_expert_2_aff = request.POST.get('viva_expert_2_aff')
+                    viva_expert_2_number = request.POST.get('viva_expert_2_number')
+                except:
+                    viva_expert_1_name = None
+                    viva_expert_1_aff = None
+                    viva_expert_1_number = None
+
+                    viva_expert_2_name = None
+                    viva_expert_2_aff = None
+                    viva_expert_2_number = None
+
                 # print(first_name)
                 # print(last_name)
                 # print(username)
@@ -648,7 +935,7 @@ class Edit_student(APIView):
                 # print(defence)
                 
 
-                if first_name and last_name and username and email and student_category and student_scholarship and student_faculty and student_department and prof_under and index_no and date_of_reg and title_of_thesis and pre_thesis_submission_date and defence:
+                if first_name and last_name and username and email and student_category and student_scholarship and student_faculty and student_department and prof_under and index_no and date_of_reg and title_of_thesis:
                     student.user.first_name = first_name
                     student.user.last_name = last_name
                     student.user.email = email
@@ -664,10 +951,48 @@ class Edit_student(APIView):
                     student.index_no = index_no
                     student.student_date_of_reg = date_of_reg
                     student.title_of_thesis = title_of_thesis
+                    student.changed_title_of_thesis = changed_title_of_thesis
+                    student.publication_doi_link = publication_doi_link
+                    student.ext_start_date = ext_start_date
+                    student.ext_end_date = ext_end_date
+
                     student.pre_thesis_submission_date = pre_thesis_submission_date
                     student.defence = defence
                     student.thesis_review_paper_1 = thesis_review_paper_1_url
                     student.thesis_review_paper_2 = thesis_review_paper_2_url
+
+                    student.examiner_panel_1_name = examiner_1_name
+                    student.examiner_panel_1_aff = examiner_1_aff
+                    student.examiner_panel_1_number = examiner_1_number
+
+                    student.examiner_panel_2_name = examiner_2_name
+                    student.examiner_panel_2_aff = examiner_2_aff
+                    student.examiner_panel_2_number = examiner_2_number
+
+                    student.examiner_panel_3_name = examiner_3_name
+                    student.examiner_panel_3_aff = examiner_3_aff
+                    student.examiner_panel_3_number = examiner_3_number
+
+                    student.examiner_panel_4_name = examiner_4_name
+                    student.examiner_panel_4_aff = examiner_4_aff
+                    student.examiner_panel_4_number = examiner_4_number
+
+                    student.examiner_panel_5_name = examiner_5_name
+                    student.examiner_panel_5_aff = examiner_5_aff
+                    student.examiner_panel_5_number = examiner_5_number
+
+                    student.examiner_panel_6_name = examiner_6_name
+                    student.examiner_panel_6_aff = examiner_6_aff
+                    student.examiner_panel_6_number = examiner_6_number
+
+                    student.viva_expert_1_name = viva_expert_1_name
+                    student.viva_expert_1_aff = viva_expert_1_aff
+                    student.viva_expert_1_number = viva_expert_1_number
+
+                    student.viva_expert_2_name = viva_expert_2_name
+                    student.viva_expert_2_aff = viva_expert_2_aff
+                    student.viva_expert_2_number = viva_expert_2_number
+
                     student.profile_pic = profile_pic_url
                     student.save()
                     messages.success(request, 'Student Updated Successfully')
@@ -712,6 +1037,21 @@ class Student_result_view(APIView):
         if request.user.user_type == '1':
             faculty = ["Engineering", "Science", "Arts", "Interdisciplinary"]
             context = {
+                'faculty': faculty,
+            }
+            return render(request, 'admin/admin_student_result.html', context)
+        else:
+            return redirect('login')
+
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        if request.user.user_type == '1':
+            faculty = ["Engineering", "Science", "Arts", "Interdisciplinary"]
+            department = request.POST.get('department')
+            # filter the students based on the department
+            students = Student.objects.filter(student_department=Department.objects.get(dept_uuid=department))
+            context = {
+                'students': students,
                 'faculty': faculty,
             }
             return render(request, 'admin/admin_student_result.html', context)
@@ -794,8 +1134,9 @@ class Upload_student_result(APIView):
                         student_result_paper_1_number=student_result_paper_1_number,
                         student_result_paper_2_number=student_result_paper_2_number,
                     )
+                    student.result_exits = True
                     student_result.save()
-
+                    student.save()
                     messages.success(request, 'Student Result Uploaded Successfully')
                     return redirect('admin_view_student_result', student_uuid)
                 else:
@@ -889,6 +1230,8 @@ class Delete_student_result(APIView):
             student = Student.objects.get(student_uuid=student_uuid)
             student_result = StudentResult.objects.get(student_result_student=student)
             student_result.delete()
+            student.result_exits = False
+            student.save()
             messages.success(request, 'Student Result Deleted Successfully')
             return redirect('admin_student_result_view')
         else:

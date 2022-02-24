@@ -14,28 +14,28 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-3" style="width:245px;!important">
-                            <img src="{{student.profile_pic}}" style="height:200px; width:200px; margin-bottom:10px;"alt="default profile" class="img-thumbnail" id="profile_image">
+                            <img src="{%static 'images/profile_pic.png'%}" style="height:200px; width:200px; margin-bottom:10px;"alt="default profile" class="img-thumbnail" id="profile_image">
                         </div>
                         <div class="col-10">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="student_first_name" style="margin-bottom:10px;">First Name</label>
-                                    <input type="text" class="form-control" id="student_first_name" name="first_name" placeholder="Enter Student First Name" value="{{student.user.first_name}}" style="margin-bottom:30px;">
+                                    <input type="text" class="form-control" id="student_first_name" name="first_name" placeholder="Enter Student First Name" value={{student.user.first_name}} style="margin-bottom:30px;">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="student_last_name" style="margin-bottom:10px;">Last Name</label>
-                                    <input type="text" class="form-control" id="student_last_name" name="last_name" placeholder="Enter Student Last Name" value="{{student.user.last_name}}" style="margin-bottom:30px;">
+                                    <input type="text" class="form-control" id="student_last_name" name="last_name" placeholder="Enter Student Last Name" value={{student.user.last_name}} style="margin-bottom:30px;">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="student_email" style="margin-bottom:10px;">Email</label>
-                                    <input type="email" class="form-control" id="student_email" name="email" placeholder="Enter Student Email" value="{{student.user.email}}" style="margin-bottom:10px;">
+                                    <input type="email" class="form-control" id="student_email" name="email" placeholder="Enter Student Email" value={{student.user.email}} style="margin-bottom:10px;">
                                     <span class="text-danger" id="email_error" style="display:none;">Email already taken!</span>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="student_username" style="margin-bottom:10px;">Username</label>
-                                    <input type="text" class="form-control" id="student_username" name="username" placeholder="Enter Student username" value="{{student.user.username}}" style="margin-bottom:10px;">
+                                    <input type="text" class="form-control" id="student_username" name="username" placeholder="Enter Student username" value={{student.user.username}} style="margin-bottom:10px;">
                                     <span class="text-danger" id="username_error" style="display:none;">Username already taken!</span>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="student_category" style="margin-bottom:10px;">Student Category</label>
-                            <select class="form-control form-select"  style="margin-bottom:10px;" id="student_category" name="student_category">
+                            <select class="form-control form-select"  style="margin-bottom:10px;" id="student_category" value={{student.student_category}} name="student_category">
                                 <option hidden selected value="{{student.student_category}}">{{student.student_category}}</option>
                                 <option>Genaral</option>
                                 <option>OBC</option>
@@ -75,14 +75,14 @@
                         <div class="col-md-4">
                             <label for="student_department" style="margin-bottom:10px;">Department</label>
                             <select class="form-control form-select"  style="margin-bottom:10px;" id="student_department" name="department">
-                            <option hidden selected value="{{student.student_department.dept_uuid}}">{{student.student_department.dept_name}}</option>
+                                <option hidden selected value="{{student.student_department.dept_uuid}}">{{student.student_department.dept_name}}</option>
                             </select>
                         </div>
 
                         <div class="col-md-4">
                             <label for="student_prof" style="margin-bottom:10px;">Professor Assigned</label>
                             <select class="form-control form-select"  style="margin-bottom:10px;" id="student_prof" name="prof_under">
-                            <option hidden selected value="{{student.prof_under.prof_uuid}}">{{student.prof_under.user.first_name}} {{student.prof_under.user.last_name}}</option>
+                                <option hidden selected value="{{student.prof_under.prof_uuid}}">{{student.prof_under.user.first_name}} {{student.prof_under.user.last_name}}</option>
                               </select>
                         </div>
                     </div>
@@ -91,38 +91,232 @@
                         <div class="col-md-3">
                             <label for="index_no" style="margin-bottom:10px;">Index Number</label>
                             <input type="text" class="form-control" id="index_no" name="index_no" placeholder="Enter Student Index Number" value="{{student.index_no}}" style="margin-bottom:10px;">
+                            <span class="text-danger" id="index_no_error" style="display:none;">Index Number already taken!</span>
                         </div>
                         <div class="col-md-3">
                             <label for="student_date_of_reg" style="margin-bottom:10px;">Date of Registration</label>
                             <input type="date" class="form-control" id="student_date_of_reg" name="student_date_of_reg" placeholder="Enter Student Date of Registration" value="{{student.student_date_of_reg}}" style="margin-bottom:10px;">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label for="student_title_of_thesis" style="margin-bottom:10px;">Title of Thesis</label>
                             <input type="text" class="form-control" id="student_title_of_thesis" name="title_of_thesis" placeholder="Enter Student Title of Thesis" value="{{student.title_of_thesis}}" style="margin-bottom:10px;">
                         </div>
+                        <div class="col-md-3">
+                            <label for="student_changed_title_of_thesis" style="margin-bottom:10px;">Changed Title of Thesis</label>
+                            <input type="text" class="form-control" id="student_changed_title_of_thesis" name="changed_title_of_thesis" placeholder="Enter Student Title of Thesis" value="{{student.changed_title_of_thesis}}" style="margin-bottom:10px;">
+                        </div>
                     </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row">
+                        
+                        <div class="col-md-3">Extention Period : </div>
+                        <div class="col-md-4">
+                            <label for="ext_start_date" style="margin-bottom:10px;">Starting Date</label>
+                            <input type="date" class="form-control" id="ext_start_date" name="ext_start_date" placeholder="Enter Student Date of Registration" value="{{student.ext_start_date}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="ext_end_date" style="margin-bottom:10px;">Ending Date</label>
+                            <input type="date" class="form-control" id="ext_end_date" name="ext_end_date" placeholder="Enter Student Date of Registration" value="{{student.ext_end_date}}" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
 
                     <div class="row">
                         <div class="col-md-6">
                             <label for="student_pre_thesis_submission_date" style="margin-bottom:10px;">Pre-thesis Submission Date</label>
-                            <input type="date" class="form-control" id="student_pre_thesis_submission_date" name="pre_thesis_submission_date" placeholder="Enter Student Pre-thesis Submission Date" value="{{student.pre_thesis_submission_date}}" style="margin-bottom:10px;">
+                            <input type="date" class="form-control" id="student_pre_thesis_submission_date" name="pre_thesis_submission_date" value="{{student.pre_thesis_submission_date}}" placeholder="Enter Student Pre-thesis Submission Date" style="margin-bottom:10px;">
                         </div>
                         <div class="col-md-6">
-                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Defence Date</label>
-                            <input type="date" class="form-control" id="student_defence_date" name="defence_date" placeholder="Enter Student Defence Date" value="{{student.defence}}" style="margin-bottom:10px;">
+                            <label for="publication_doi_link" style="margin-bottom:10px;">Publication DOI Link</label>
+                            <input type="text" class="form-control" id="publication_doi_link" name="publication_doi_link" value="{{student.publication_doi_link}}" placeholder="Enter Link" style="margin-bottom:10px;">
                         </div>
+                        {% comment %} <div class="col-md-6">
+                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Defence Date</label>
+                            <input type="date" class="form-control" id="student_defence_date" name="defence_date" placeholder="Enter Student Defence Date" style="margin-bottom:10px;">
+                        </div> {% endcomment %}
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="student_thesis_paper_1" style="margin-bottom:10px;">Upload Thesis Review Paper 1</label>
+                            <label for="student_thesis_paper_1" style="margin-bottom:10px;">Upload Thesis Review Report 1</label>
                             <input type="file" class="form-control" id="student_thesis_paper_1" name="thesis_review_paper_1" placeholder="Enter Student Pre-thesis Submission Date" style="margin-bottom:10px;">
                         </div>
                         <div class="col-md-6">
-                            <label for="student_thesis_paper_2" style="margin-bottom:10px;">Upload Thesis Review Paper 2</label>
+                            <label for="student_thesis_paper_2" style="margin-bottom:10px;">Upload Thesis Review Report 2</label>
                             <input type="file" class="form-control" id="student_thesis_paper_2" name="thesis_review_paper_2" placeholder="Enter Student Defence Date" style="margin-bottom:10px;">
                         </div>
                     </div>
+
+                    <br>
+                    <hr>
+                    <br>
+                  
+                    <h4> Examination Panel </h4>
+                    <br>
+                   
+                    <div class="row" id="examiner_1">
+                        <div class="col-md-3">
+                            Examiner 1 :
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_1_name" style="margin-bottom:10px;">Name</label>
+                            <input type="text" class="form-control" id="examiner_1_name" name="examiner_1_name" placeholder="Name" value="{{student.examiner_panel_1_name}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_1_aff" style="margin-bottom:10px;">Affilation</label>
+                            <input type="text" class="form-control" id="examiner_1_aff" name="examiner_1_aff"  placeholder="Affilation" value="{{student.examiner_panel_1_aff}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_1_number" style="margin-bottom:10px;">Contact No.</label>
+                            <input type="text" class="form-control" id="examiner_1_number" name="examiner_1_number"  placeholder="Number" value="{{student.examiner_panel_1_number}}" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+                    <div class="row" id="examiner_2">
+                        <div class="col-md-3">
+                            Examiner 2 :
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_2_name" style="margin-bottom:10px;">Name</label>
+                            <input type="text" class="form-control" id="examiner_2_name" name="examiner_2_name" placeholder="Name" value="{{student.examiner_panel_2_name}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_2_aff" style="margin-bottom:10px;">Affilation</label>
+                            <input type="text" class="form-control" id="examiner_2_aff"  name="examiner_2_aff" placeholder="Affilation" value="{{student.examiner_panel_2_aff}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_2_number" style="margin-bottom:10px;">Contact No.</label>
+                            <input type="text" class="form-control" id="examiner_2_number" name="examiner_2_number" placeholder="Number" value="{{student.examiner_panel_2_number}}" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+                    <div class="row" id="examiner_3">
+                        <div class="col-md-3">
+                            Examiner 3 :
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_3_name" style="margin-bottom:10px;">Name</label>
+                            <input type="text" class="form-control" id="examiner_3_name" name="examiner_3_name" placeholder="Name" value="{{student.examiner_panel_3_name}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_3_aff" style="margin-bottom:10px;">Affilation</label>
+                            <input type="text" class="form-control" id="examiner_3_aff"  name="examiner_3_aff" placeholder="Affilation" value="{{student.examiner_panel_3_aff}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_3_number" style="margin-bottom:10px;">Contact No.</label>
+                            <input type="text" class="form-control" id="examiner_3_number" name="examiner_3_number" placeholder="Number" value="{{student.examiner_panel_3_number}}" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3" id="examiner_4">
+                            Examiner 4 :
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_4_name" style="margin-bottom:10px;">Name</label>
+                            <input type="text" class="form-control" id="examiner_4_name" name="examiner_4_name" placeholder="Name"  value="{{student.examiner_panel_4_name}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_4_aff" style="margin-bottom:10px;">Affilation</label>
+                            <input type="text" class="form-control" id="examiner_4_aff"  name="examiner_4_aff" placeholder="Affilation" value="{{student.examiner_panel_4_aff}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_4_number" style="margin-bottom:10px;">Contact No.</label>
+                            <input type="text" class="form-control" id="examiner_4_number" name="examiner_4_number"  placeholder="Number" value="{{student.examiner_panel_4_number}}" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3" id="examiner_5">
+                            Examiner 5 :
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_5_name" style="margin-bottom:10px;">Name</label>
+                            <input type="text" class="form-control" id="examiner_5_name" name="examiner_5_name" placeholder="Name" value="{{student.examiner_panel_5_name}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_5_aff" style="margin-bottom:10px;">Affilation</label>
+                            <input type="text" class="form-control" id="examiner_5_aff" name="examiner_5_aff" placeholder="Affilation" value="{{student.examiner_panel_5_aff}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_5_number" style="margin-bottom:10px;">Contact No.</label>
+                            <input type="text" class="form-control" id="examiner_5_number" name="examiner_5_number" placeholder="Number" value="{{student.examiner_panel_5_number}}" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3" id="examiner_6">
+                            Examiner 6 :
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_6_name" style="margin-bottom:10px;">Name</label>
+                            <input type="text" class="form-control" id="examiner_6_name" name="examiner_6_name"   placeholder="Name" value="{{student.examiner_panel_6_name}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_6_aff" style="margin-bottom:10px;">Affilation</label>
+                            <input type="text" class="form-control" id="examiner_6_aff" name="examiner_6_aff" placeholder="Affilation" value="{{student.examiner_panel_6_aff}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="examiner_6_number" style="margin-bottom:10px;">Contact No.</label>
+                            <input type="text" class="form-control" id="examiner_6_number" name="examiner_6_number" placeholder="Number" value="{{student.examiner_panel_6_number}}" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+                    <span class="text-danger">*Fill All Six Examiners.</span>
+                    <br>
+                    <hr>
+                    <br>
+
+                    <h4>Expert on Viva:</h4>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            Expert 1 :
+                        </div>
+                        <div class="col-md-3">
+                            <label for="viva_expert_1_name" style="margin-bottom:10px;">Name</label>
+                            <input type="text" class="form-control" id="viva_expert_1_name" name="viva_expert_1_name" placeholder="Name" value="{{student.viva_expert_1_name}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="viva_expert_1_aff" style="margin-bottom:10px;">Affilation</label>
+                            <input type="text" class="form-control" id="viva_expert_1_aff" name="viva_expert_1_aff" placeholder="Affilation" value="{{student.viva_expert_1_aff}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="viva_expert_1_number" style="margin-bottom:10px;">Contact No.</label>
+                            <input type="text" class="form-control" id="viva_expert_1_number" name="viva_expert_1_number" placeholder="Numeber" value="{{student.viva_expert_1_number}}" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            Expert 2 :
+                        </div>
+                        <div class="col-md-3">
+                            <label for="viva_expert_2_name" style="margin-bottom:10px;">Name</label>
+                            <input type="text" class="form-control" id="viva_expert_2_name" name="viva_expert_2_name" placeholder="Name" value="{{student.viva_expert_2_name}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="viva_expert_2_aff" style="margin-bottom:10px;">Affilation</label>
+                            <input type="text" class="form-control" id="viva_expert_2_aff" name="viva_expert_2_aff" placeholder="Affilation" value="{{student.viva_expert_2_aff}}" style="margin-bottom:10px;">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="viva_expert_2_number" style="margin-bottom:10px;">Contact No.</label>
+                            <input type="text" class="form-control" id="viva_expert_2_number" name="viva_expert_2_number" placeholder="Number" value="{{student.viva_expert_2_number}}" style="margin-bottom:10px;">
+                        </div>
+                    </div>
+
+                    <span class="text-danger">*Fill Both the Experts.</span>
+                    
+                    <br>
+
+                    <div class="col-md-6">
+                            <label for="student_title_of_thesis" style="margin-bottom:10px;">Defence Date</label>
+                            <input type="date" class="form-control" id="student_defence_date" name="defence_date" placeholder="Enter Student Defence Date"  value="{{student.defence}}" style="margin-bottom:10px;">
+                    </div> 
+
+                    <br>
+                    <hr>
+                    <br>
+
+
 
                     <div class="form-group">
                         <label for="student_image" style="margin-bottom:10px;">Student Image</label>
@@ -131,13 +325,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="student_password" style="margin-bottom:10px;">Student Password</label>
-                            <input type="password" class="form-control" id="student_password" name="student_password" placeholder="Enter student Password" style="margin-bottom:20px;">
+                            <input type="password" class="form-control" id="student_password" name="student_password" placeholder="Leave Empty If you don't want to change" style="margin-bottom:20px;">
                         </div>
                         <div class="col-md-6">
                             <label for="student_password_confirm" style="margin-bottom:10px;" >Student Password Confirm</label>
-                            <input type="password" class="form-control" id="student_password_confirm" placeholder="Enter student Password Confirm" style="margin-bottom:20px;">
+                            <input type="password" class="form-control" id="student_password_confirm" placeholder="Leave Empty If you don't want to change" style="margin-bottom:20px;">
                         </div>
                     </div>
+                   
                    
                     {% comment %} <div class="row" style="justify-content:center">
                         <div class="col-2">
@@ -191,7 +386,7 @@
     });
     // disabling the submit button until all fields are filled
     $(document).on('keyup', function() {
-        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != ''  && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='' && $('#student_pre_thesis_submission_date').val()!='') {
+        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != ''  && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='') {
             $('#submit').prop('disabled', false);
             $('#error_message1').hide();
         } else {
@@ -209,7 +404,7 @@
                 $('#error_message2').show();
             }
         } else {
-            $('#error_message1').show();
+            //$('#error_message1').show();
             $('#error_message2').hide();
         }
     });
@@ -237,7 +432,7 @@
                         //console.log('email taken');
                     } else {
                         $('#email_error').hide();
-                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='' && $('#student_pre_thesis_submission_date').val()!='') {
+                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='') {
                             $('#submit').prop('disabled', false);
                         }
                         //console.log('email not taken');
@@ -269,7 +464,7 @@
                         //console.log('username taken');
                     } else {
                         $('#username_error').hide();
-                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='' && $('#student_pre_thesis_submission_date').val()!='') {
+                        if($('#student_first_name').val() != '' && $('#student_last_name').val() != '' && $('#student_username').val() != '' && $('#student_email').val() != '' && $('#student_department').val()!='' && $('#student_category').val()!=''  && $('#student_faculty').val()!='' && $('#student_department').val()!='' && $('#student_prof')!="" &&  $('#index_no').val()!='' && $('#student_date_of_reg').val()!='' && $('#student_title_of_thesis').val()!='') {
                             $('#submit').prop('disabled', false);
                         }
                         //console.log('username not taken');
@@ -330,6 +525,51 @@
             });
         });
     });
+
+     // disabling the submit button if all six exmaniers are not filled
+     $(document).ready(function(){
+        $('#examiner_1_name').on('keyup',function(){
+            if($('#examiner_1_name').val() != '' && $('#examiner_1_number').val() != '' && $('#examiner_1_aff').val() != '' && $('#examiner_1_department').val() != '') {
+                $('#submit').prop('disabled', true);
+            }
+            else if($('#examiner_2_name').val() != '' && $('#examiner_2_number').val() != '' && $('#examiner_2_aff').val() != '' && $('#examiner_1_department').val() != '') {
+                $('#submit').prop('disabled', true);
+            }
+            else if($('#examiner_3_name').val() != '' && $('#examiner_3_number').val() != '' && $('#examiner_3_aff').val() != '' && $('#examiner_1_department').val() != '') {
+                $('#submit').prop('disabled', true);
+            }
+            else if($('#examiner_4_name').val() != '' && $('#examiner_4_number').val() != '' && $('#examiner_4_aff').val() != '' && $('#examiner_1_department').val() != '') {
+                $('#submit').prop('disabled', true);
+            }
+            else if($('#examiner_5_name').val() != '' && $('#examiner_5_number').val() != '' && $('#examiner_5_aff').val() != '' && $('#examiner_1_department').val() != '') {
+                $('#submit').prop('disabled', true);
+            }
+            else if($('#examiner_6_name').val() != '' && $('#examiner_6_number').val() != '' && $('#examiner_6_aff').val() != '' && $('#examiner_1_department').val() != '') {
+                $('#submit').prop('disabled', true);
+            }
+            else {
+                $('#submit').prop('disabled', false);
+            }
+        });
+    });
+   
+      
+    // disabling the submit button if all 2 viva experts are not filled
+
+    $(document).ready(function(){
+        $('#viva_expert_1_name').on('keyup',function(){
+            if($('#viva_expert_1_name').val() != '' && $('#viva_expert_1_number').val() != '' && $('#viva_expert_1_aff').val() != '' && $('#viva_expert_1_department').val() != '') {
+                $('#submit').prop('disabled', true);
+            }
+            else if($('#viva_expert_2_name').val() != '' && $('#viva_expert_2_number').val() != '' && $('#viva_expert_2_aff').val() != '' && $('#viva_expert_1_department').val() != '') {
+                $('#submit').prop('disabled', true);
+            }
+            else {
+                $('#submit').prop('disabled', false);
+            }
+        });
+    });
+
 
 </script>
 

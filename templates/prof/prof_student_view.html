@@ -14,6 +14,7 @@
                     <div class="col-3 justify-contents">
                         <center>
                             <img src="{{student.profile_pic}}" style="height:310px; width:300px; border-radius:5px;"alt="{{student.user.first_name}} {{student.user.last_name}}" class="img-fluid">
+                            <br>
                             <span>{{student.user.first_name}} {{student.user.last_name}}</span>
                         </center>
                     </div>
@@ -31,10 +32,13 @@
                             <li class="list-group-item" style="padding:5px;">Student Department :</li>
                             <li class="list-group-item" style="padding:5px;">Professor Assigned :</li>
                             <li class="list-group-item" style="padding:5px;">Title of Thesis :</li>
+                            <li class="list-group-item" style="padding:5px;">Changed Title of Thesis :</li>
                             <li class="list-group-item" style="padding:5px;">Pre-Thesis Submission Date :</li>
-                            <li class="list-group-item" style="padding:5px;">Defence Date :</li>
-                            <li class="list-group-item" style="padding:5px;">Thesis Review Paper 1:</li>
-                            <li class="list-group-item" style="padding:5px;">Thesis Review Paper 2:</li>
+                            <li class="list-group-item" style="padding:5px;">Staring Date of Extention:</li>
+                            <li class="list-group-item" style="padding:5px;">Ending Date of Extention:</li>
+                            <li class="list-group-item" style="padding:5px;">DOI link of Publication :</li>
+                            <li class="list-group-item" style="padding:5px;">Thesis Review Report 1:</li>
+                            <li class="list-group-item" style="padding:5px;">Thesis Review Report 2:</li>
                         </ul>
                       </div>
                       <div class="col-5">
@@ -51,8 +55,12 @@
                             <li class="list-group-item" style="padding:5px;">{{student.student_department}}</li>
                             <li class="list-group-item" style="padding:5px;">{{student.prof_under.user.first_name}} {{student.prof_under.user.last_name}}</li>
                             <li class="list-group-item" style="padding:5px;">{{student.title_of_thesis}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.changed_title_of_thesis}}</li>
                             <li class="list-group-item" style="padding:5px;">{{student.pre_thesis_submission_date}}</li>
-                            <li class="list-group-item" style="padding:5px;">{{student.defence}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.ext_start_date}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.ext_end_date}}</li>
+                            <li class="list-group-item" style="padding:5px;">{{student.publication_doi_link}}</li>
+                           
                             {% if student.thesis_review_paper_1 %}
                                <li class="list-group-item" style="padding:5px;"><a href="{{student.thesis_review_paper_1}}">Download</a></li>
                             {% else %}
@@ -71,5 +79,127 @@
         </div>
     </div>
 </div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3> Examiner's Panel </h3>
+                <hr>
+                {% if student.examiner_panel_1_name != None%}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Examiner 1</h4>
+                                    <p>Name : {{student.examiner_panel_1_name}}</p>
+                                    <p>Affilation : {{student.examiner_panel_1_aff}}</p>
+                                    <p>Contact : {{student.examiner_panel_1_number}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Examiner 2</h4>
+                                    <p>Name : {{student.examiner_panel_2_name}}</p>
+                                    <p>Affilation : {{student.examiner_panel_2_aff}}</p>
+                                    <p>Contact : {{student.examiner_panel_2_number}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Examiner 3</h4>
+                                    <p>Name : {{student.examiner_panel_3_name}}</p>
+                                    <p>Affilation : {{student.examiner_panel_3_aff}}</p>
+                                    <p>Contact : {{student.examiner_panel_3_number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Examiner 4</h4>
+                                    <p>Name : {{student.examiner_panel_4_name}}</p>
+                                    <p>Affilation : {{student.examiner_panel_4_aff}}</p>
+                                    <p>Contact : {{student.examiner_panel_4_number}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Examiner 5</h4>
+                                    <p>Name : {{student.examiner_panel_5_name}}</p>
+                                    <p>Affilation : {{student.examiner_panel_5_aff}}</p>
+                                    <p>Contact : {{student.examiner_panel_5_number}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Examiner 6</h4>
+                                    <p>Name : {{student.examiner_panel_6_name}}</p>
+                                    <p>Affilation : {{student.examiner_panel_6_aff}}</p>
+                                    <p>Contact : {{student.examiner_panel_6_number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                {% else %}
+                    <p> No Examiner's Panel is set</p>
+                {% endif %}
+
+                <br>
+                <h3> Expert on Viva </h3>
+                <hr>
+                {%if student.viva_expert_1_name%}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Expert 1</h4>
+                                    <p>Name : {{student.viva_expert_1_name}}</p>
+                                    <p>Affilation : {{student.viva_expert_1_aff}}</p>
+                                    <p>Contact : {{student.viva_expert_1_number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Expert 2</h4>
+                                    <p>Name : {{student.viva_expert_2_name}}</p>
+                                    <p>Affilation : {{student.viva_expert_2_aff}}</p>
+                                    <p>Contact : {{student.viva_expert_2_number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p> No Expert on Viva is set</p>
+                {% endif %}
+                <br>
+                <hr>
+                <br>
+                <h4> Defence date: {{student.defence}} </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </main>
 {% endblock content%}

@@ -6,6 +6,44 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Manage Professors</h1>
   </div>
+  <div class="row pt-3 pb-2 mb-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="{%url 'admin_manage_profs'%}" method="post">
+                    {%csrf_token%}
+                        <div class="row">
+                            <div class='col-2'>
+                                Fetch Professors
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <select id="select_faculty" class="form-control form-select">
+                                        <option value="">Select Faculty</option>
+                                        {% for faculty_name in faculty %}
+                                          <option>{{faculty_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                   
+                                    <select id="select_department" name="department" class="form-control form-select">
+                                       
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">Fetch Professors</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
   <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -48,3 +86,55 @@
 </div>
 </main>
 {% endblock content%}
+
+
+{% block js %}
+<script>
+    // getting get getCookies
+    function getCookie(name){
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = jQuery.trim(cookies[i]);
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+    }
+
+    // Fetch Department
+  $(document).ready(function(){
+    $('#select_faculty').change(function(){
+      $.ajax({
+        url: "{%url 'admin_get_faculty_dept' %}",
+        type: 'POST',
+        headers: {
+          "X-CSRFToken": getCookie('csrftoken')
+        },
+        data: {
+          "faculty": $('#select_faculty').val(),
+        },
+        success: function(response){
+          console.log(response);
+          var department_select = `
+          <option value="">Select Department</option>
+          `;
+          $('#select_department').html(department_select);
+          for(var i=0; i<response.length; i++){
+            var department_option = `
+            <option value="${response[i].dept_uuid}">${response[i].dept_name}</option>
+            `;
+            $('#select_department').append(department_option);
+          }
+        }
+      });
+    });
+  });
+</script>
+
+{%endblock js%}

@@ -5,8 +5,40 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Manage Departments</h1>
     </div>
+
+    <div class="row pt-3 pb-2 mb-3">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="card-body">
+                  <form action="{%url 'admin_manage_depts'%}" method="post">
+                      {%csrf_token%}
+                          <div class="row">
+                              <div class='col-2'>
+                                  Fetch Departments
+                              </div>
+                              <div class="col-md-3">
+                                  <div class="form-group">
+                                      <select id="select_faculty" class="form-control form-select" name="faculty">
+                                          <option value="">Select Faculty</option>
+                                          {% for faculty_name in faculty %}
+                                            <option>{{faculty_name}}</option>
+                                          {% endfor %}
+                                      </select>
+                                  </div>
+                              </div>
+                            
+                              <div class="col-md-3">
+                                  <button type="submit" class="btn btn-primary">Fetch Departments</button>
+                              </div>
+                          </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
     <!--displaying all the Departments-->
-    {% if department_list %}
+    {% if depts %}
     <div class="row">
       <div class="col-md-12">
           <div class="card">
@@ -25,7 +57,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for department in department_list %}
+                      {% for department in depts %}
                       <tr>
                         <td>{{ department.dept_name }}</td>
                         <td>{{ department.dept_code}}</td>

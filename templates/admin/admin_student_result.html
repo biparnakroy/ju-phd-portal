@@ -10,7 +10,8 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-             
+              <form action="{%url 'admin_student_result_view'%}" method="post">
+                {%csrf_token%}
                 <div class="row">
                    <div class="col-2">
                       Fetch Students :
@@ -31,9 +32,10 @@
                   
                     <div class="col-3">
                         <!--Fetch Button-->
-                        <button  class="btn btn-primary"  id="fetch_student_btn">Fetch Student</button>
+                        <button  type="submit" class="btn btn-primary"  id="fetch_student_btn">Fetch Student</button>
                     </div>
                 </div>
+              </form>
 
             </div>
         </div>
@@ -44,7 +46,36 @@
   <div class="col-md-12">
       <div class="card">
           <div class="card-body" id="student_data">
-              
+            <table class="table table-striped ">
+              <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Roll</th>
+                    <th>Email</th>
+                    <th>Prof.</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for student in students %}
+                    <tr>
+                      <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+                      <td>{{student.index_no}}</td>
+                      <td>{{student.user.email}}</td>
+                      <td>{{student.prof_under.user.first_name}} {{student.prof_under.user.last_name}}</td>
+                      <td>
+                        {%if student.result_exits%}
+                        <a href="{%url 'admin_view_student_result' student.student_uuid%}" class="btn btn-success">View Result</a>&nbsp;
+                        <a href="{%url 'admin_edit_student_result_view' student.student_uuid%}" class="btn btn-warning">Edit Result</a>&nbsp;
+                        <a href="{%url 'admin_delete_student_result' student.student_uuid%}" class="btn btn-danger">Delete Result</a>
+                        {%else%}
+                          <a href="{%url 'admin_upload_student_result_view' student.student_uuid%}" class="btn btn-primary">Upload Result</a>
+                        {%endif%}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
           </div>
       </div>
     </div>
@@ -76,7 +107,7 @@
   //var year = $('#select_year').val();
 
   // Fetch Student
-  $(document).ready(function(){
+  {% comment %} $(document).ready(function(){
       $('#fetch_student_btn').click(function(){
           if($('#select_department').val() == '' || $('#select_faculty').val() == ''){
             alert('Please select department and faculty');
@@ -170,7 +201,7 @@
             }
           });
       });
-  });
+  }); {% endcomment %}
 
   
 
