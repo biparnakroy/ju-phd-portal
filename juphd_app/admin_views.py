@@ -818,7 +818,7 @@ class Edit_student(APIView):
                     profile_pic = request.FILES['profile_pic']
                     # uploading profile pic to student profile pic folder
                     extent = profile_pic.name.split('.')[-1]
-                    filename = 'student/' + first_name+'__'+last_name + '__' + str(uuid.uuid4()) + '.' + extent
+                    filename =  first_name+'__'+last_name + '__' + str(uuid.uuid4()) + '.' + extent
                     fs = FileSystemStorage()
                     filename = fs.save(filename, profile_pic)
                     profile_pic_url = fs.url(filename)
