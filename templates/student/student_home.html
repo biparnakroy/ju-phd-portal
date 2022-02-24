@@ -67,16 +67,38 @@
                                     </tr>
 
                                     <tr>
+                                        <td>Changed Title of Thesis</td>
+                                        <td>{{student.changed_title_of_thesis}}</td>
+                                    </tr>
+
+                                
+                                    <tr>
                                         <td>Pre-Thesis Submission</td>
                                         <td>{{student.pre_thesis_submission_date}}</td>
                                     </tr>
+
+                                    <tr>
+                                        <td>Staring Date of Extention:</td>
+                                        <td>{{student.ext_start_date}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Ending Date of Extention:</td>
+                                        <td>{{student.ext_end_date}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>DOI Link of Publication:</td>
+                                        <td>{{student.publication_doi_link}}</td>
+                                    </tr>
+
 
                                     <tr>
                                         <td>Defence</td>
                                         <td>{{student.defence}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Thesis Review Paper 1</td>
+                                        <td>Thesis Review Report 1</td>
                                         {%if student.thesis_review_paper_1%}
                                             <td><a href="{{student.thesis_review_paper_1}}">Download</a></td>
                                         {%else%}
@@ -84,7 +106,7 @@
                                         {%endif%}
                                     </tr>
                                     <tr>
-                                        <td>Thesis Review Paper 2</td>
+                                        <td>Thesis Review Report 2</td>
                                         {%if student.thesis_review_paper_2%}
                                             <td><a href="{{student.thesis_review_paper_2}}">Download</a></td>
                                         {%else%}

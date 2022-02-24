@@ -46,7 +46,7 @@ class Prof(models.Model):
 class Student(models.Model):
     user=models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     student_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    profile_pic = models.FileField(default="/media/student/user.png")
+    profile_pic = models.FileField(default="/media/student/user.png", max_length=300)
     student_date_of_reg = models.CharField(max_length=100, blank=True, null=True)
     index_no=models.CharField(max_length=12,unique=True)
     student_faculty = models.CharField(max_length=100, blank=True)
@@ -59,6 +59,57 @@ class Student(models.Model):
     defence = models.CharField(max_length=100, blank=True, null=True)
     thesis_review_paper_1 = models.FileField(null=True,blank=True)
     thesis_review_paper_2 = models.FileField(null=True,blank=True)
+    changed_title_of_thesis=models.CharField(max_length=200,blank=True)
+    has_changed_title_of_thesis=models.BooleanField(default=False)
+    ext_start_date=models.CharField(max_length=100, blank=True, null=True)
+    ext_end_date=models.CharField(max_length=100, blank=True, null=True)
+    publication_doi_link=models.CharField(max_length=100, blank=True, null=True)
+    result_exits=models.BooleanField(default=False)
+    
+    # Examiner Panel
+
+    examiner_panel_1_name=models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_1_aff = models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_1_number=models.CharField(max_length=100, blank=True, null=True)
+
+
+    examiner_panel_2_name=models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_2_aff = models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_2_number=models.CharField(max_length=100, blank=True, null=True)
+
+
+    examiner_panel_3_name=models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_3_aff = models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_3_number=models.CharField(max_length=100, blank=True, null=True)
+
+
+    examiner_panel_4_name=models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_4_aff = models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_4_number=models.CharField(max_length=100, blank=True, null=True)
+
+
+    examiner_panel_5_name=models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_5_aff = models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_5_number=models.CharField(max_length=100, blank=True, null=True)
+
+
+    examiner_panel_6_name=models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_6_aff = models.CharField(max_length=100, blank=True, null=True)
+    examiner_panel_6_number=models.CharField(max_length=100, blank=True, null=True)
+
+
+    # Expert on Viva
+    viva_expert_1_name=models.CharField(max_length=100, blank=True, null=True)
+    viva_expert_1_aff = models.CharField(max_length=100, blank=True, null=True)
+    viva_expert_1_number=models.CharField(max_length=100, blank=True, null=True)
+
+
+    viva_expert_2_name=models.CharField(max_length=100, blank=True, null=True)
+    viva_expert_2_aff = models.CharField(max_length=100, blank=True, null=True)
+    viva_expert_2_number=models.CharField(max_length=100, blank=True, null=True)
+
+
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()

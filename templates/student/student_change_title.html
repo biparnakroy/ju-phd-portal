@@ -1,0 +1,38 @@
+{% extends "student/student_base.html" %}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"> Change Title of Thesis</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">
+                    {%if student.has_changed_title_of_thesis == False%}
+                    <span> You can change the title of thesis only once. </span>
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{%url 'student_change_title'%}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="title" style="margin-bottom:10px;">Title of Thesis</label>
+                                    <input type="text" class="form-control" id="title" name="changed_title_of_thesis" placeholder
+                                        value="{{ student.title_of_thesis }}" style="margin-bottom:10px;">
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="margin-bottom:10px;">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    {%else%}
+                    Title has been changed, if you want to change title again, please contact the admin.
+                    {%endif%}
+
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+{% endblock content%}

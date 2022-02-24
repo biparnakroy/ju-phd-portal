@@ -72,6 +72,7 @@ urlpatterns = [
     path('student_profile_update/', student_views.StudentProfileEdit.as_view(), name="student_profile_update"),
     path('student_view_prof/', student_views.StudentProfView.as_view(), name="student_view_prof"),
     path('student_view_result/', student_views.StudentResultView.as_view(), name="student_view_result"),
+    path('student_change_title/', student_views.StudentChangeTitleView.as_view(), name="student_change_title"),
 
 
     #===================== Form Validation Views============================

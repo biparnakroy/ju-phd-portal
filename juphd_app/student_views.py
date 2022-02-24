@@ -133,3 +133,28 @@ class StudentResultView(APIView):
             return render(request, 'student/student_result.html', context)
         else:
             return redirect('login')
+
+# Student Change Title of thesis view 
+class StudentChangeTitleView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        if request.user.user_type == '3':
+            student = Student.objects.get(user=request.user)
+            context = {
+                'student': student,
+            }
+            return render(request, 'student/student_change_title.html', context)
+        else:
+            return redirect('login')
+
+    def post(self, request):
+        if request.user.user_type == '3':
+            student = Student.objects.get(user=request.user)
+            student.changed_title_of_thesis = request.POST.get('changed_title_of_thesis')
+            student.has_changed_title_of_thesis = True
+            student.save()
+            messages.success(request, "Title Updated Successfully!")
+            return redirect('student_home')
+        else:
+            return redirect('login')
+
