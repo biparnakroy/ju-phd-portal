@@ -26,7 +26,7 @@ import requests
 from django.conf import settings
 
 # boto3
-import boto3
+# import boto3
 
 
 # Admin Profile View
