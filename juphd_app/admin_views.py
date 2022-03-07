@@ -28,6 +28,14 @@ from django.conf import settings
 # boto3
 # import boto3
 
+#for PDF generation
+from .helper import render_to_pdf
+from django.template.loader import get_template
+
+def to_base64(url):
+    reqcontent = requests.get(url).content
+    base64str = base64.b64encode(reqcontent).decode('utf-8')
+    return "data:image/png;base64, " + str(base64str)
 
 # Admin Profile View
 class AdminProfileView(APIView):
@@ -748,6 +756,49 @@ class View_student(APIView):
                 'student': student,
             }
             return render(request, 'admin/admin_view_student.html', context)
+        else:
+            return redirect('login')
+
+# download student data into pdf
+class Download_student_data(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, student_uuid):
+        if request.user.user_type == '1':
+            #student_uuid = request.GET.get('student_uuid')
+            student = Student.objects.get(student_uuid=student_uuid)
+            student_image = student.profile_pic.url
+            ju_logo = 'static/images/logo.png'
+            # deleting the first letter of the student_image
+            student_image = student_image[7:]
+            context = {
+                'student': student,
+                'student_image': student_image,
+                'ju_logo': ju_logo,
+            }
+
+            #template = get_template('pdf/student_data.html')
+            #html = template.render(context)
+            pdf = render_to_pdf('pdf/student_data.html', context)
+            if pdf:
+                response = HttpResponse(pdf, content_type='application/pdf')
+                filename = "%s.pdf" %(str(student.user.first_name)+'__'+str(student.user.last_name))
+                print(filename)
+                content = "inline; filename='%s'" %(filename)
+                download = True
+                if download:
+                    content = "attachment; filename='%s'" %(filename)
+                response['Content-Disposition'] = content
+                # auto download the file
+                # response['Content-Length'] = len(response.content)
+                # response['Content-Type'] = 'application/octet-stream'
+                # response['Content-Transfer-Encoding'] = 'binary'
+                # response['Content-Disposition'] = 'attachment; filename="%s"' %(filename)
+
+                return response
+
+            # pdf = render_to_pdf('pdf/student_data.html', context)
+            # return HttpResponse(pdf, content_type='application/pdf')
+            return HttpResponse("Not found")
         else:
             return redirect('login')
 

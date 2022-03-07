@@ -1,0 +1,245 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadavpur University PHD Portal</title>
+</head>
+<body>
+    <div class="header">
+        <div class="row">
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="{{ju_logo}}" alt="logo" style="width:60px;height:60px;">
+                        </td>
+                        <td>
+                            <h1>Jadavpur University PHD Portal</h1>
+                           
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            {% comment %} <div class="col">
+                <img src="{{ju_logo}}" style="height:40px; width:40px; margin-right:4px; margin-top:-2px;"/><h1>JU PHD Portal</h1>
+            </div> {% endcomment %}
+        </div>
+    </div>
+    <main class="col-md-12 ms-sm-auto col-lg-12 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1>{{student.user.first_name}} {{student.user.last_name}}</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <hr>
+                        <p class="card-text">
+                            <div class="row">
+                                <div class="col-2" style="width:250px;!important">
+                                    <img src="{{student_image}}" style="height:100px; width:100px; margin-bottom:10px;"alt="default profile" class="img-thumbnail" id="profile_image">
+                                </div>
+                                <br>
+                                <div class="col-md-10">
+                                    <table class="table table-borderless">
+                                        <tbody>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td>{{student.user.email}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Username</td>
+                                                <td>{{student.user.username}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Index No.</td>
+                                                <td>{{student.index_no}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date of Registration</td>
+                                                <td>{{student.student_date_of_reg}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Student Category</td>
+                                                <td>{{student.student_category}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Scholarship</td>
+                                                <td>{{student.student_scholarship}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Faculty</td>
+                                                <td>{{student.student_faculty}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Department</td>
+                                                <td>{{student.student_department.dept_name}}</td>
+                                            </tr>
+                                          
+                                            <tr>
+                                                <td>Professor</td>
+                                                <td>{{student.prof_under.user.first_name}} {{student.prof_under.user.last_name}}</td>
+                                            </tr>
+        
+                                            <tr>
+                                                <td>Title of Thesis</td>
+                                                <td>{{student.title_of_thesis}}</td>
+                                            </tr>
+        
+                                            <tr>
+                                                <td>Changed Title of Thesis</td>
+                                                <td>{{student.changed_title_of_thesis}}</td>
+                                            </tr>
+        
+                                        
+                                            <tr>
+                                                <td>Pre-Thesis Submission</td>
+                                                <td>{{student.pre_thesis_submission_date}}</td>
+                                            </tr>
+        
+                                            <tr>
+                                                <td>Staring Date of Extention:</td>
+                                                <td>{{student.ext_start_date}}</td>
+                                            </tr>
+        
+                                            <tr>
+                                                <td>Ending Date of Extention:</td>
+                                                <td>{{student.ext_end_date}}</td>
+                                            </tr>
+        
+                                            <tr>
+                                                <td>DOI Link of Publication:</td>
+                                                <td>{{student.publication_doi_link}}</td>
+                                            </tr>
+        
+        
+                                            <tr>
+                                                <td>Defence</td>
+                                                <td>{{student.defence}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Thesis Review Report 1</td>
+                                                {%if student.thesis_review_paper_1%}
+                                                    <td>{{student.thesis_review_paper_1}}</a></td>
+                                                {%else%}
+                                                    <td style="color:red;">No File.</td>
+                                                {%endif%}
+                                            </tr>
+                                            <tr>
+                                                <td>Thesis Review Report 2</td>
+                                                {%if student.thesis_review_paper_2%}
+                                                    <td>{{student.thesis_review_paper_2}}</a></td>
+                                                {%else%}
+                                                    <td style="color:red;">No File.</td>
+                                                {%endif%}
+                                            </tr>
+        
+                                        </tbody>
+                                    </table>
+                                </div>
+        
+                            </div>
+                            <br>
+                            {%if student.examiner_panel_1_name%}
+                                <!--displaying Examiner pannel-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Examiner Panel</h3>
+                                        <table class="table ">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Examiner 1</td>
+                                                    <td>{{student.examiner_panel_1_name}}</td>
+                                                    <td>{{student.examiner_panel_1_aff}}</td>
+                                                    <td>{{student.examiner_panel_1_number}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Examiner 2</td>
+                                                    <td>{{student.examiner_panel_2_name}}</td>
+                                                    <td>{{student.examiner_panel_2_aff}}</td>
+                                                    <td>{{student.examiner_panel_2_number}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Examiner 3</td>
+                                                    <td>{{student.examiner_panel_3_name}}</td>
+                                                    <td>{{student.examiner_panel_3_aff}}</td>
+                                                    <td>{{student.examiner_panel_3_number}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Examiner 4</td>
+                                                    <td>{{student.examiner_panel_4_name}}</td>
+                                                    <td>{{student.examiner_panel_4_aff}}</td>
+                                                    <td>{{student.examiner_panel_4_number}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Examiner 5</td>
+                                                    <td>{{student.examiner_panel_5_name}}</td>
+                                                    <td>{{student.examiner_panel_5_aff}}</td>
+                                                    <td>{{student.examiner_panel_5_number}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Examiner 6</td>
+                                                    <td>{{student.examiner_panel_6_name}}</td>
+                                                    <td>{{student.examiner_panel_6_aff}}</td>
+                                                    <td>{{student.examiner_panel_6_number}}</td>6
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            {%endif%}
+
+
+                            {%if student.viva_expert_1_name%}
+                                <!--displaying Examiner pannel-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3>Expert on Viva</h3>
+                                        <table class="table ">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Expert 1</td>
+                                                    <td>{{student.viva_expert_1_name}}</td>
+                                                    <td>{{student.viva_expert_1_aff}}</td>
+                                                    <td>{{student.viva_expert_1_number}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Expert 2</td>
+                                                    <td>{{student.viva_expert_2_name}}</td>
+                                                    <td>{{student.viva_expert_2_aff}}</td>
+                                                    <td>{{student.viva_expert_2_number}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            {%endif%}
+
+                        </p>
+                    </div>
+                </div>
+          </div>
+      
+      
+      </main>
+</body>
+</html>
+
+{%block js%}
+<script>
+</script>
+{%endblock js%}

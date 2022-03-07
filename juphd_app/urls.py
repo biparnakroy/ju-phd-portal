@@ -51,7 +51,7 @@ urlpatterns = [
     path('admin_edit_student_result_view/<student_uuid>/', admin_views.Edit_student_result_view.as_view(), name="admin_edit_student_result_view"),
     path('admin_edit_student_result/<student_uuid>/', admin_views.Edit_student_result.as_view(), name="admin_edit_student_result"),
     path('admin_delete_student_result/<student_uuid>/', admin_views.Delete_student_result.as_view(), name="admin_delete_student_result"),
-
+    path('admin_print_student_data/<student_uuid>/', admin_views.Download_student_data.as_view(), name="admin_print_student_data"),
     
     #===================== Prof Views============================
     path('prof_home/', prof_views.Prof_home.as_view(), name="prof_home"),
@@ -62,6 +62,7 @@ urlpatterns = [
     path('prof_view_student/<student_uuid>/', prof_views.ProfStudentView.as_view(), name="prof_view_student"),
     path('prof_view_student_results/', prof_views.ProfStudentResultListView.as_view(), name="prof_view_student_results"),
     path('prof_view_student_result/<student_uuid>/', prof_views.ProfStudentResultView.as_view(), name="prof_view_student_result"),
+    path('prof_print_student_data/<student_uuid>/', prof_views.Download_student_data.as_view(), name="prof_print_student_data"),
 
 
 

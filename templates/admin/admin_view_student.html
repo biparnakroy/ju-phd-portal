@@ -196,7 +196,8 @@
                 <br>
                 <h4> Defence date: {{student.defence}} </h4>
             </div>
-            
+            {% comment %} <button class="btn btn-primary" onclick="window.print()">Print</button> {% endcomment %}
+            <a href="{%url 'admin_print_student_data' student.student_uuid %}" style="width: 230px; padding:10px; margin:10px;" target="_blank" class="btn btn-primary" id="print_data" type="button">Print Student Data</button>
         </div>
     </div>
 </div>
@@ -204,3 +205,31 @@
 
 </main>
 {% endblock content%}
+
+{%block js%}
+<script>
+    {% comment %} $(document).ready(function(){
+        $("#prid_data").click(function(){
+            // ajax call 
+            $.ajax({
+                url: "{%url 'admin_print_student_data'%}",
+                type: "GET",
+                data: {
+                    'student_uuid':'{{student.student_uuid}}',
+                    'download' : 'true',
+                },
+                success: function(data){
+                    console.log(data);
+                    // download response pdf file
+                    window.location.href = data;
+
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+        });
+    }); {% endcomment %}
+
+</script>
+{% endblock js%}
